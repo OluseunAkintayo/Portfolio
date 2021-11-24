@@ -30,15 +30,19 @@ const MovieInfo = () => {
   return (
     <MovieInfoComp>
       <h2>IMDB Trending Movies</h2>
-      <button onClick={() => navigate("/movies")}>
-        Go back
-      </button>
+      <button onClick={() => navigate("/movies")}>Go back</button>
       <div className="info-wrapper">
         {
           !loading && info !== undefined ? (
             <>
               <div className="movieInfo-img">
                 <img src={imgURL+info.poster_path} alt="" />
+              </div>
+              <div className="movieInfo-details">
+                <h2>{info.title}</h2>
+                <span>Rated {info.vote_average} out of 10</span>
+                <h3>Synopsis</h3>
+                <p>{info.overview}</p>
               </div>
             </>
           ) : (
@@ -50,25 +54,48 @@ const MovieInfo = () => {
   )
 }
 
-export default MovieInfo
+export default MovieInfo;
 
 const MovieInfoComp = styled.section`
 padding: 1rem;
+
+.info-wrapper {
+  margin: 1rem;
+  display: flex;
+
+  .movieInfo-details {
+    margin: 1rem;
+    h2 {
+      font-size: 1.75rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
+    span {
+      font-size: 0.875rem;
+    }
+    h3 {
+      letter-spacing: 0.5px;
+      margin: 1.5rem 0;
+    }
+  }
+}
+
 button {
-  margin: 2rem 1rem;
+  margin: 2rem;
   display: block;
   width: 5rem;
   padding: 0.5rem 0;
   background: transparent;
   outline: none;
-  border: 1px solid whitesmoke;
+  border: 1px solid rgba(245, 245, 245, 0.4);
   color: whitesmoke;
-  border-radius: 0.25rem;
+  border-radius: 0.2rem;
   cursor: pointer;
 }
 
 .movieInfo-img {
-  width: 275px;
+  min-width: 275px;
+  max-width: 275px;
   margin: 1rem;
   border-radius: 0.25rem;
   overflow: hidden;
@@ -76,6 +103,7 @@ button {
   img {
     max-width: 100%;
     height: 100%;
+    border-radius: 0.25rem;
   }
 }
 
