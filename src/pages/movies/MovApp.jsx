@@ -13,7 +13,8 @@ class MovApp extends Component {
       searchText: '',
       loading: false,
       totalPages: null,
-      currentPage: 1
+      currentPage: 1,
+      error: null
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,12 +33,13 @@ class MovApp extends Component {
           this.setState((state) => { return { loading: false } });
           this.setState((state) => { return { totalPages: movies.total_pages } });
           console.log(this.state)
-        } else {
-          console.log(movies);
         }
       })
       .catch(err => {
         console.log({err});
+        this.setState((state) => { return { totalPages: 1 } });
+        this.setState((state) => { return { error: 'Unable to fetch movies. Please check your network and try again' } });
+        console.log(this.state);
         this.setState({ loading: false });
       });
   }
@@ -50,11 +52,11 @@ class MovApp extends Component {
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name] : value });
-    // if ((this.state.searchText).trim() === '') {
-    //   this.getMovies(this.mov_API)
-    // } else if (this.state.searchText) {
-    //   this.getMovies(this.search + this.state.searchText)
-    // }
+    if ((this.state.searchText).trim() === '') {
+      this.getMovies(this.mov_API)
+    } else if (this.state.searchText) {
+      this.getMovies(this.search + this.state.searchText)
+    }
   }
 
   handleSubmit(e) {
@@ -125,6 +127,14 @@ class MovApp extends Component {
         return "hideText";
       }
     }
+    console.log(this.state);
+    const showMovies = () => {
+      if (this.state.loading) {
+        return <div className="progress"><CircularProgress size="5rem" /></div>
+      } else {
+        return <div className="container">{movArray}</div>
+      }
+    }
 
     return (
       <>
@@ -144,14 +154,7 @@ class MovApp extends Component {
           <div className={displayResults()}>
             Showing results for {`"${this.state.searchText}"`}
           </div>
-          { this.state.loading ? 
-            (<div className="progress"><CircularProgress size="7.5rem" /></div>) :
-            (
-              <div className="container">
-                {movArray}
-              </div>
-            )
-          }
+          { showMovies() }
           <div className="paginate">
             <p>Page {this.state.currentPage} of {this.state.totalPages}</p>
             <div className="paginate-btns">

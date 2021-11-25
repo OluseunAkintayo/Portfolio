@@ -21,11 +21,11 @@ let Movie = (props) => {
                 <h3 className="movie-title">{title}</h3>
                 <span className={`movie-rating ${rating()}`} title="rating">{vote_average}</span>
             </div>
-            <div className="movie-overview">
+            {/* <div className="movie-overview">
                 <h4 className="movie-title">{title}</h4>
                 <h4>Overview:</h4>
                 <p>{overview}</p>
-            </div>
+            </div> */}
         </Link>
     )
 }
