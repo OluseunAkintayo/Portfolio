@@ -69,7 +69,7 @@ const Projects = () => {
             </a>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <Link to='/movies'>
+            <Link to='/projects/movies'>
               <div className="item-img">
                 <img src={movie} alt="movies" />
               </div>
@@ -84,7 +84,8 @@ const Projects = () => {
             </Link>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <a href="https://starwars.techydna.com" target="_blank" rel="noreferrer">
+            {/* <a href="https://starwars.techydna.com" target="_blank" rel="noreferrer"> */}
+            <Link to='/projects/starwars'>
               <div className="item-img">
                 <img src={stardestroyer} alt="sterling" />
               </div>
@@ -96,7 +97,8 @@ const Projects = () => {
                   React JS
                 </div>
               </div>
-            </a>
+            </Link>
+            {/* </a> */}
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
             <Link to='/'>

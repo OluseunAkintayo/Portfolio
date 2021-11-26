@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { CircularProgress } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { ArrowBack } from '@mui/icons-material';
 
 const MovieInfo = () => {
   const [loading, setLoading] = useState(false);
@@ -75,6 +75,7 @@ overflow-y: auto;
 background-size: cover;
 background-attachment-fixed;
 background-position: center;
+background-repeat: no-repeat;
 
 .info-wrapper {
   margin: 1rem;

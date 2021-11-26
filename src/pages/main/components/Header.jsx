@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { MenuOpen } from '@material-ui/icons';
+import { MenuOpen } from '@mui/icons-material';
 import logo from '../../../assets/logo-white.svg';
 
 function Header() {

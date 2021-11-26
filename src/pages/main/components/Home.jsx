@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { ArrowUpward } from '@material-ui/icons';
+import { ArrowUpward } from '@mui/icons-material';
 import { Tooltip } from '@material-ui/core';
 
 const Home = () => {

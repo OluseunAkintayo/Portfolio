@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { LinkedIn, MailOutline, GitHub, Visibility } from "@material-ui/icons"
+import { LinkedIn, MailOutline, GitHub, Visibility } from '@mui/icons-material';
 import { Tooltip } from "@material-ui/core";
 
 const Contact = () => {
