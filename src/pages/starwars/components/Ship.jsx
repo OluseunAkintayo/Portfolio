@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Ship = ({ ship, setInCart }) => {
-  console.log(ship);
+const Ship = (props) => {
+  // console.log(props);
   const img = "https://i.ebayimg.com/images/g/ingAAOSwm8tejYRs/s-l400.jpg";
-  const { name, cost_in_credits, inCart, url } = ship;
+  const { name, cost_in_credits, inCart, url } = props.ship;
+  
   return (
     <ShipComp>
       <div className="ship-item">
@@ -15,9 +16,9 @@ const Ship = ({ ship, setInCart }) => {
         </div>
         <button
           className="addToCart"
-          onClick = {() => setInCart(true)}
+          onClick = {() => props.addToCart(name)}
           disabled={ inCart ? true : false }
-        >{ inCart ? "In Cart" : "Add Item"}</button>
+        >{ inCart === true ? "In Cart" : "Add Item"}</button>
       </div>
     </ShipComp>
   )
@@ -63,7 +64,7 @@ const ShipComp = styled.div`
     bottom: 3rem;
     color: whitesmoke;
     border-radius: 0.25rem 0 0 0.25rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.625rem 0.875rem;
     letter-spacing: 0.5px;
     border: none;
     transform: translateX(110%);
