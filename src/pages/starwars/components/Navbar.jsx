@@ -20,6 +20,9 @@ justify-content: space-between;
 align-items: center;
 padding: 2rem 1rem;
 
+div {
+  cursor: pointer;
+}
 .cartIcon {
   font-size: 2.25rem;
 }

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Ship from './Ship';
+import { CircularProgress } from '@mui/material';
 
 const Home = () => {
-  const [ships, setShips] = useState(null);
+  let [ships, setShips] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [inCart, setIncart] = useState(false);
+  const [imgUrl, setImgUrl] = useState('');
 
   const shipURL = `https://swapi.dev/api/starships/?page=1`;
   const getShips = (URL) => {
@@ -18,10 +21,17 @@ const Home = () => {
     .catch(err => console.log({err}));
   }
 
-  console.log(ships)
-
   const nextPage = () => {
 
+  }
+
+  const renderShips = () => {
+    if(loading || ships === null || ships === undefined) {
+      return <div className="loadingShips"><CircularProgress size="5rem" /></div>
+    } else if(!loading && ships !== undefined) {
+      ships = ships.results.map(ship => ({ ...ship, inCart, imgUrl }));
+      return ships.map(item => <Ship ship={item} setIncart={setIncart} setImgUrl={setImgUrl} />)
+    }
   }
 
   useEffect(() => {
@@ -31,7 +41,7 @@ const Home = () => {
   return (
     <HomeComp>
       <Navbar />
-      {/* { ships !== null && ships.result.map(ship => <Ship ship={ships.results} />) } */}
+      { renderShips() }
     </HomeComp>
   )
 }
@@ -39,5 +49,10 @@ const Home = () => {
 export default Home
 
 const HomeComp = styled.div`
-
+.loadingShips {
+  height: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 `;
