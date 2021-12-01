@@ -12,7 +12,6 @@ const MovieInfo = () => {
   const alt_IMG = "https://images.unsplash.com/photo-1559570278-eb8d71d06403?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Y2luZW1hfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80";
   const navigate = useNavigate();
   const { movieId } = useParams();
-  console.log(movieId);
   const moviesArray = JSON.parse(localStorage.getItem('mov')).results;
   
   const getMovieItem = (id) => {
@@ -22,7 +21,6 @@ const MovieInfo = () => {
     setLoading(false);
   }
 
-  console.log(info);
 
   const bg = {
     background: `linear-gradient( 45deg, rgba(17,24,39, 0.93), rgba(13, 13, 17, 0.93) ), url('${imgURL + info.backdrop_path}')`,
@@ -37,7 +35,7 @@ const MovieInfo = () => {
   return (
     <MovieInfoComp style={info !== undefined && !loading ? bg : null}>
       <h2 className="main-title">Movie Details</h2>
-      <button onClick={() => navigate("/movies")}>
+      <button onClick={() => navigate("/projects/movies")}>
         <ArrowBack className="arrowIcon" />
       </button>
       <div className="info-wrapper">

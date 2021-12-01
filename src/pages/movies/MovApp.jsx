@@ -32,14 +32,12 @@ class MovApp extends Component {
           this.setState((state) => { return { movies: movies.results } });
           this.setState((state) => { return { loading: false } });
           this.setState((state) => { return { totalPages: movies.total_pages } });
-          console.log(this.state)
         }
       })
       .catch(err => {
         console.log({err});
         this.setState((state) => { return { totalPages: 1 } });
         this.setState((state) => { return { error: 'Unable to fetch movies. Please check your network and try again' } });
-        console.log(this.state);
         this.setState({ loading: false });
       });
   }
@@ -53,6 +51,7 @@ class MovApp extends Component {
     const { name, value } = e.target;
     this.setState({ [name] : value });
     if ((this.state.searchText).trim() === '') {
+      this.setState((state) => { return { ...state, currentPage: 1} })
       this.getMovies(this.mov_API)
     } else if (this.state.searchText) {
       this.getMovies(this.search + this.state.searchText)
@@ -114,7 +113,6 @@ class MovApp extends Component {
 
   getMovie = id => {
     const result = this.state.movies.filter(item => item.id === id)
-    // console.log(result);
   }
   
   render() {
@@ -127,7 +125,6 @@ class MovApp extends Component {
         return "hideText";
       }
     }
-    console.log(this.state);
     const showMovies = () => {
       if (this.state.loading) {
         return <div className="progress"><CircularProgress size="5rem" /></div>

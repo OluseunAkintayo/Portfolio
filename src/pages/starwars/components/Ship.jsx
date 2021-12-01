@@ -1,30 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { addToCart } from '../../../redux/actions';
+import { Link } from 'react-router-dom';
 
-const Ship = (props) => {
+const Ship = ({ ship, addToCart }) => {
   // console.log(props);
   const img = "https://i.ebayimg.com/images/g/ingAAOSwm8tejYRs/s-l400.jpg";
-  const { name, cost_in_credits, inCart, url } = props.ship;
+  const { id, name, cost_in_credits } = ship;
   
   return (
     <ShipComp>
       <div className="ship-item">
-        <img src={img} alt="" />
-        <div className="ship-item-footer">
-          <p>{name}</p>
-          <p>{cost_in_credits === "unknown" ? Math.ceil(Math.random() * 9438539).toLocaleString() : Number(cost_in_credits).toLocaleString()}</p>
-        </div>
+        <Link to={`/ships/${id}`}>
+          <img src={img} alt="" />
+          <div className="ship-item-footer">
+            <p>{name}</p>
+            <p>{cost_in_credits === "unknown" ? Math.ceil(Math.random() * 9438539).toLocaleString() : Number(cost_in_credits).toLocaleString()}</p>
+          </div>
+        </Link>
         <button
           className="addToCart"
-          onClick = {() => props.addToCart(name)}
-          disabled={ inCart ? true : false }
-        >{ inCart === true ? "In Cart" : "Add Item"}</button>
+          onClick = {() => addToCart(id)}
+        >Add Item</button>
       </div>
     </ShipComp>
   )
 }
 
-export default Ship;
+const mapDispatchToProps = dispatch => {
+  return {
+    addToCart: (id) => dispatch(addToCart(id))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Ship);
 
 const ShipComp = styled.div`
 .ship-item {

@@ -2,75 +2,156 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Ship from './Ship';
+import { getAllShips, addToCart } from '../../../redux/actions';
 import { CircularProgress } from '@mui/material';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+import { v4 as uuidV4 } from 'uuid';
+import { Search } from '@mui/icons-material';
 
-const Home = () => {
-  const [ships, setShips] = useState(null);
-  const [newShips, setNewShips] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [imgUrl, setImgUrl] = useState('');
-  const [cartCount, setCartCount] = useState(0);
-
+const Home = ({ addToCart }) => {
+  const dispatch = useDispatch();
   const shipURL = `https://swapi.dev/api/starships/?page=1`;
-  const getShips = (URL) => {
-    setLoading(false);
-    fetch(URL).then(res => res.json().then(data => {
-      console.log(data);
-      setShips(data);
-      setLoading(false);    
-    }))
-    .catch(err => console.log({err}));
-  }
+  const [loading, setLoading] = useState(false);
+  let [ships, setShips] = useState(null);
+  const [next, setNext] = useState('');
+  const [prev, setPrev] = useState('');
+  const [pages, setPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState('');
 
-  const getShip = (name) => {
-    const result = ships.find(ship => ship.name === name);
-    return result;
+  const getItems = async (URL) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(URL);
+      console.log(response.data);
+      const tempShips = response.data.results.map((item, index) => ({
+        ...item, id: uuidV4(), inCart: false, itemCount: 0, itemTotal: 0
+      }));
+      setShips(tempShips);
+      setPages(Math.ceil(response.data.count / 10))
+      dispatch(getAllShips(tempShips));
+      setNext(response.data.next);
+      setPrev(response.data.previous);
+      setLoading(false);
+    } catch (err) {
+      console.error({err});
+      setLoading(false);
+    }
   }
+  
+  useEffect(() => {
+    getItems(shipURL);
+  }, []);
 
-  const addToCart = name => {
-    const items = [...ships];
-    const item = getShip(name);
-    const index = items.indexOf(item);
-    item.inCart = true;
-    item.itemCount = 1;
-    item.itemTotal = Number(item.cost_in_credits);
-    setCartCount(cartCount + 1);
-    console.log(item);
-  }
-
-  const renderShips = () => {
-    if(loading || ships === null || ships === undefined) {
-      return <div className="loadingShips"><CircularProgress size="5rem" /></div>
-    } else if(!loading && ships !== undefined) {
-      const result = ships.results.map((ship, index) => ({ ...ship, inCart: false, itemCount: 0, itemTotal: 0, imgUrl }));
-      return result.map(item => <Ship key={item.index} ship={item} addToCart={addToCart} />)
+  const nextPage = () => {
+    if (next !== null) {
+      getItems(next);
+      setCurrentPage(currentPage + 1)
+    } else {
+      return null
     }
   }
 
-  useEffect(() => {
-    getShips(shipURL);
-  }, []);
+  const prevPage = () => {
+    if (prev !== null) {
+      getItems(prev);
+      setCurrentPage(currentPage - 1)
+    } else {
+      return null
+    }
+  }
+
+  const onSearch = (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    const searchURL = `https://swapi.dev/api/starships/?search=`;
+    if(search && search.trim() !== '') {
+      getItems(searchURL + search)
+    } else {
+      return getItems(shipURL);
+    }
+  }
 
   return (
     <HomeComp>
-      <Navbar cartCount={cartCount} />
+      <Navbar />
+      <form className="search" onSubmit={onSearch}>
+        <input type="text" placeholder="Search Ship..."
+          name="search"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <Search className="search-icon" onClick={onSearch} />
+      </form>
       <div className="container">
-        { renderShips() }
+        { loading || ships === undefined || ships === null ? 
+          (<div className="loadingShips"><CircularProgress size="5rem" /></div>) : 
+          <>
+            { ships.map(ship => <Ship key={ship.id} ship={ship} />) }
+          </>
+        }
       </div>
       <div className="paginate">
-        Page 
+        <p>Page {currentPage} of {pages}</p>
+        <button onClick={prevPage} className="navigation">Prev</button>
+        <button onClick={nextPage} className="navigation">Next</button>
       </div>
     </HomeComp>
   )
 }
 
-export default Home
+export default Home;
 
 const HomeComp = styled.div`
+padding-top: 5rem;
+
+.search {
+  background: transparent;
+  height: 2.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 0 0.5rem;
+  border: 1px solid rgba(245, 245, 245, 0.5);
+  border-radius: 0.25rem;
+  overflow: hidden;
+  input {
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: whitesmoke;
+    letter-spacing: 0.5px;
+  }
+  .search-icon {
+    cursor: pointer;
+  }
+}
+
 .loadingShips {
   height: 35vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.navigation {
+  background: transparent;
+  border: slategray 1px solid;
+  outline: none;
+  margin: 1rem 0.5rem;
+  height: 2rem;
+  width: 5rem;
+  color: whitesmoke;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  &:hover {
+    background: rgb(20, 24, 53);
+  }
 }
 `;
