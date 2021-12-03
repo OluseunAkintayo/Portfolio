@@ -11,8 +11,7 @@ import { CircularProgress } from '@material-ui/core';
 
 const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location);
+  // const location = useLocation();
   const { shipId } = useParams();
   const findShip = id => {
     const res = ships.find(item => item.id === id);
@@ -44,7 +43,7 @@ const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
                 <img src={img} alt={ship.name} />
               </div>
               <div className="other-info">
-                <h3 className="">Ship Specifications:</h3>
+                <h3 className="price">N {ship.price.toLocaleString()}</h3>
                 <p><span className="bold">Manufacturer:</span> {ship.manufacturer}</p>
                 <p><span className="bold">Model:</span> {ship.model}</p>
                 <p><span className="bold">Class:</span> {ship.manufacturer}</p>
@@ -52,8 +51,7 @@ const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
                 <p><span className="bold">Cargo Capacity:</span> {ship.cargo_capacity}</p>
                 <p><span className="bold">Crew Count:</span> {ship.manufacturer}</p>
                 <p><span className="bold">Passenger Capacity:</span> {ship.passengers}</p>
-                <p><span className="bold">Supplies Span:</span> {ship.consumables}</p>              
-                <p><span className="bold">Price:</span> NGN {ship.cost_in_credits === "unknown" ? Math.ceil(Math.random() * 9438539).toLocaleString() : Number(ship.cost_in_credits).toLocaleString()}</p>
+                <p><span className="bold">Supplies Span:</span> {ship.consumables}</p>
                 <div className="actions">
                   <button
                     onClick = {() => addToCart(ship.id)}
@@ -163,6 +161,11 @@ const ShipInfoComp = styled.section`
   .info-details {
     flex-direction: column;
     align-items: center;
+  }
+
+  .price {
+    text-align: center;
+    margin-bottom: 2rem;
   }
 
   .other-info {

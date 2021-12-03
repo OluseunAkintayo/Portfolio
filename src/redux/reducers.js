@@ -23,39 +23,34 @@ const shipsReducer = (state=init.starwars, { type, payload }) => {
         ...state,
         cart: item.inCart ?
           state.cart.map(item => item.id === payload.id ? 
-            { ...item, itemCount: item.itemCount + 1, itemTotal: (item.itemCount + 1) * Number(item.cost_in_credits), inCart: true } : item)
-          : [...state.cart, { ...item, itemCount: 1, itemTotal: Number(item.cost_in_credits), inCart: true }]
+            { 
+              ...item,
+              itemCount: item.itemCount + 1,
+              itemTotal: (item.itemCount + 1) * item.price,
+              inCart: true
+            } : item)
+          : [...state.cart, { ...item, itemCount: 1, itemTotal: item.price, inCart: true }]
       };
     case actionTypes.REMOVE_FROM_CART:
       return {
         ...state,
         cart: state.cart.filter(unit => unit.id !== payload.id)
       };
-    case actionTypes.INCREASE:
-      return {
-        ...state,
-        cart: state.cart.map(unit => unit.id === payload.id ? { ...unit, itemCount: payload.itemCount + 1 } : unit)
-      }
     case actionTypes.ADJUST_QTY:
       return {
         ...state,
-        cart: state.cart.map(unit => unit.id === payload.id ? { ...unit, itemCount: payload.itemCount } : unit)
+        cart: state.cart.map(unit => unit.id === payload.id ? { ...unit, itemCount: +payload.itemCount, itemTotal: (unit.itemCount + 1) * unit.price } : unit)
       };
+    case actionTypes.CLEAR_CART:
+      return {
+        ...state, cart: []
+      }
     case actionTypes.CLEANUP_ITEM:
       return { ...state, ship: null };
     default:
       return state;
   }
 }
-
-// const cartReducer = (state=init.cart, { type, payload }) => {
-//   switch(type) {
-    
-//     default:
-//       return state;
-//   }
-// }
-
 
 
 const reducers = combineReducers({

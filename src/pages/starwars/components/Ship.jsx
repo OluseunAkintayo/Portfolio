@@ -8,12 +8,12 @@ const Ship = ({ ship, addToCart }) => {
   // console.log(props);
   const img = "https://i.ebayimg.com/images/g/ingAAOSwm8tejYRs/s-l400.jpg";
   const { id, name, cost_in_credits } = ship;
-  
+
   return (
     <ShipComp>
       <div className="ship-item">
         <Link to={`/ships/${id}`}>
-          <img src={img} alt="" />
+          <img src='' alt="" />
           <div className="ship-item-footer">
             <p>{name}</p>
             <p>{cost_in_credits === "unknown" ? Math.ceil(Math.random() * 9438539).toLocaleString() : Number(cost_in_credits).toLocaleString()}</p>
@@ -38,12 +38,11 @@ export default connect(null, mapDispatchToProps)(Ship);
 
 const ShipComp = styled.div`
 .ship-item {
-  width: 250px;
-  aspect-ratio: 1;
+  width: 300px;
+  aspect-ratio: 4/3;
   overflow: hidden;
   position: relative;
   margin: 1rem;
-  background: pink;
   border: 1px solid rgba(245, 245, 245, 0.5);
   cursor: pointer;
   img {
@@ -60,7 +59,7 @@ const ShipComp = styled.div`
     z-index: 5;
     bottom: 0;
     width: 100%;
-    padding: 0.375rem 0;
+    padding: 0.375rem 0.25rem;
     p { 
       margin: 0.25rem;
       font-size: 0.875rem;

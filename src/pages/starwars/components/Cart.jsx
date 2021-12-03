@@ -1,66 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import  { removeFromCart, increase } from '../../../redux/actions';
 import NavBar from './Navbar';
-import { DataGrid } from '@material-ui/data-grid';
-import { AddCircleOutline, RemoveCircleOutline, Delete } from '@mui/icons-material';
-const Cart = ({ storeCart, removeFromCart }) => {
+import CartItem from './cart-comp/CartItem';
+import { clearCart } from '../../../redux/actions';
+
+const Cart = ({ storeCart, clearCart }) => {
+  const [totalCount, setTotalCount] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
   
   useEffect(() => {
-    console.log(storeCart);
-  });
+    let count = 0;
+    let total = 0;
+    storeCart.forEach(item => {
+      count += item.itemCount;
+      total += item.itemCount * item.price;
+    })
+    setTotalCount(count);
+    setCartTotal(total);
+  }, [storeCart, totalCount, cartTotal, setTotalCount, setCartTotal]);
 
-  const cols = [
-    {
-      field: 'name',
-      headerName: 'Item Description',
-      width: 175
-    },
-    {
-      field: 'cost_in_credits',
-      headerName: 'Item Cost',
-      width: 120,
-      renderCell: (params) => (
-        <>
-          {Number(params.row.cost_in_credits).toLocaleString()}
-        </>
-      )
-    },
-    {
-      field: 'itemCount',
-      headerName: 'Qty',
-      width: 105,
-      renderCell: (params) => (
-        <div className="cart-actions">
-          <RemoveCircleOutline />
-          <span>{params.row.itemCount}</span>
-          <AddCircleOutline />
-        </div>
-      )
-    },
-    {
-      field: 'itemTotal',
-      headerName: 'Item Total',
-      width: 150,
-      renderCell: (params) => (
-        <>
-          {params.row.itemTotal.toLocaleString()}
-        </>
-      )
-    },
-    {
-      field: '',
-      headerName: '',
-      width: 25,
-      renderCell: (params) => (
-        <div className="cart-actions">
-          <Delete className="deleteIcon" onClick={() => removeFromCart(params.row.id)} />
-        </div>
-      )
-    }
-  ]
   return (
     <>
       <NavBar />
@@ -70,33 +29,40 @@ const Cart = ({ storeCart, removeFromCart }) => {
           : (
             <div className="mainCart">
               <h2>Your Cart</h2>
-              <DataGrid
-                columns={cols}
-                rows={storeCart}
-                disableSelectionOnClick
-                disableColumnMenu={true}
-              />
+              <div className="cart-items-container">
+                <table className="cart-items-wrapper">
+                  <th className="description">Description</th>
+                  <th className="cost">Cost</th>
+                  <th className="qty">Qty</th>
+                  <th className="amt">Amount</th>
+                  <th style={{ width: '2rem' }}></th>
+                  {storeCart.map(item  => <CartItem key={item.id} cartItem={item} />)}
+                </table>
+              </div>
             </div>
           )
         }
         <div className="cartSummary">
-          <div className="clear-cart">
+          <div className="clear-cart" onClick={() => clearCart()}>
             Clear cart
           </div>
           <div className="cart-totals">
             <div>
               <p>Subtotal:</p>
-              <p className="amt">NGN 389,394,992</p>
+              <p className="amt">N { Number(cartTotal.toFixed(2)).toLocaleString() }</p>
             </div>
             <div>
               <p>VAT (7.5%):</p>
-              <p className="amt">NGN 389,394,992</p>
+              <p className="amt">N { (cartTotal.toFixed(2) * 0.075).toLocaleString() }</p>
             </div>
             <div style={{ fontWeight: 'bold' }}>
               <p>Total:</p>
-              <p className="amt">NGN 389,394,992</p>
+              <p className="amt">N { (cartTotal * 1.075).toLocaleString() }</p>
             </div>
           </div>
+        </div>
+        <div className="check-out">
+          <button>Check Out</button>
         </div>
       </CartComp>
     </>
@@ -111,8 +77,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeFromCart: (id) => dispatch(removeFromCart(id)),
-    increase: (id) => dispatch(increase(id)),
+    clearCart: () => dispatch(clearCart()),
   }
 }
 
@@ -129,18 +94,76 @@ height: 100%;
 }
 
 .mainCart {
-  max-height: 100%;
-  height: 60vh;
   max-width: 650px;
-  margin: 5rem auto 1rem auto;
+  margin: 5rem auto 0 auto;
   color: whitesmoke;
   padding: 1rem;
   h2 {
     text-align: center;
     margin: 1rem;
+  }  
+}
+
+.cart-items-container {
+  overflow-x: auto;
+}
+
+.cart-items-wrapper {
+  width: 100%;
+  font-size: 0.75rem;
+  th.description {
+    padding: 0 0.5rem 0.5rem 0;
+    text-align: left;
   }
-  .MuiDataGrid-root * {
-    color: whitesmoke !important;
+  th.cost {
+    text-align: right;
+    padding: 0 0.25rem;
+  }
+  th.qty {
+    text-align: center;
+    padding: 0 0.25rem;
+    width: 4rem;
+    text-align: center;
+  }
+  th.amt {
+    text-align: right;
+    padding: 0 0.25rem;
+  }
+  tr.cart-item-data {
+    height: 2.5rem;
+
+    .cartItemName {
+      min-width: 140px;
+    }
+    .price {
+      text-align: right;
+      padding: 0 0.25rem;
+    }
+    .itemTotal {
+      text-align: right;
+      padding: 0 0.25rem;
+    }
+    .removeItem {
+      text-align: right;
+    }
+    .remove-btn {
+      color: rgba(255, 0, 0, 0.75);
+      cursor: pointer;
+    }
+    .itemQty-container {
+
+    }
+    .itemQty {
+      height: 2rem;
+      width: 3rem;
+      margin: 0 0.5rem;
+      text-align: center;
+      background: rgba(245, 245, 245, 0.05);
+      border: none;
+      outline: none;
+      color: inherit;
+      font-size: inherit;
+    }
   }
 }
 
@@ -158,9 +181,34 @@ height: 100%;
 .cartSummary {
   display: flex;
   justify-content: space-between;
-  max-width: 600px;
-  margin: 4rem auto 0 auto;
+  max-width: 650px;
+  margin: 1rem auto 0 auto;
   padding: 1rem;
+
+  .clear-cart {
+    background: rgba(255,0,0,0.75);
+    cursor: pointer;
+    padding: 0.5rem 0.25rem;
+    transition: ease-in 0.3s;
+    min-width: 100px;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    &:hover {
+      background: rgba(255,0,0,0.5);
+      letter-spacing: 0.5px;
+    }
+  }
+
+  @media(max-width: 345px) {
+    flex-direction: column;
+
+    .clear-cart {
+      margin-bottom: 2rem;
+    }
+  }
 
   .cart-totals {
     text-align: right;
@@ -174,7 +222,40 @@ height: 100%;
       }
     }
   }
+}
 
+.check-out {
+  max-width: 650px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  height: 2.5rem;
+  padding: 0 1rem;
+  button {
+    display: block;
+    height: 100%;
+    width: calc(200px - 1.5rem);
+    background: rgba(0, 255, 0, 0.4);
+    color: whitesmoke;
+    border: none;
+    outline: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    transition: ease-in 0.3s;
+    cursor: pointer;
+    &:hover {
+      background: rgba(0, 255, 0, 0.3);
+      letter-spacing: 1px;
+    }
+  }
+
+  @media(max-width: 345px) {
+    
+    button {
+      width: 100%;
+    }
+  }
 }
 
 `;

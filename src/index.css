@@ -9,8 +9,12 @@ a {
   text-decoration: none;
   color: inherit;
  }
-/* 
- .stack {
-   display: flex;
-   align-items: flex-start;
- } */
+
+ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

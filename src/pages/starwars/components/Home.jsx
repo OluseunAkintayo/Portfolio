@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Ship from './Ship';
-import { getAllShips, addToCart } from '../../../redux/actions';
+import { getAllShips } from '../../../redux/actions';
 import { CircularProgress } from '@mui/material';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidV4 } from 'uuid';
 import { Search } from '@mui/icons-material';
 
@@ -25,9 +24,14 @@ const Home = ({ addToCart }) => {
     setLoading(true);
     try {
       const response = await axios.get(URL);
-      console.log(response.data);
       const tempShips = response.data.results.map((item, index) => ({
-        ...item, id: uuidV4(), inCart: false, itemCount: 0, itemTotal: 0
+        ...item,
+        id: uuidV4(),
+        imgUrl: '',
+        inCart: false,
+        itemCount: 0,
+        itemTotal: 0,
+        price: item.cost_in_credits === "unknown" ? Math.ceil(Math.random() * 48954782) : Number(item.cost_in_credits)
       }));
       setShips(tempShips);
       setPages(Math.ceil(response.data.count / 10))
@@ -43,7 +47,7 @@ const Home = ({ addToCart }) => {
   
   useEffect(() => {
     getItems(shipURL);
-  }, []);
+  }, [shipURL]);
 
   const nextPage = () => {
     if (next !== null) {
@@ -77,14 +81,16 @@ const Home = ({ addToCart }) => {
   return (
     <HomeComp>
       <Navbar />
-      <form className="search" onSubmit={onSearch}>
-        <input type="text" placeholder="Search Ship..."
-          name="search"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-        <Search className="search-icon" onClick={onSearch} />
-      </form>
+      <div className="form-container">
+        <form className="search" onSubmit={onSearch}>
+          <input type="text" placeholder="Search Ship..."
+            name="search"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <Search className="search-icon" onClick={onSearch} />
+        </form>
+      </div>
       <div className="container">
         { loading || ships === undefined || ships === null ? 
           (<div className="loadingShips"><CircularProgress size="5rem" /></div>) : 
@@ -106,6 +112,10 @@ export default Home;
 
 const HomeComp = styled.div`
 padding-top: 5rem;
+
+.form-container {
+  margin: 1rem;
+}
 
 .search {
   background: transparent;

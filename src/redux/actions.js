@@ -64,10 +64,16 @@ export const decrease = (id, value) => {
   }
 }
 
-export const adjustQty = (id, value) => {
+export const changeQty = (id, value) => {
   return {
     type: actionTypes.ADJUST_QTY,
     payload: { id: id, itemCount: value }
+  }
+}
+
+export const clearCart = () => {
+  return {
+    type: actionTypes.CLEAR_CART,
   }
 }
 
