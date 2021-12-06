@@ -39,7 +39,7 @@ const Home = ({ getShips, spaceShips }) => {
   useEffect(() => {
     window.scrollTo(0,0);
     getItems(vessels);
-  }, [getItems]);
+  }, []);
 
   const options = {
     // includeMatches: false,
