@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { addToCart } from '../../../redux/actions';
 import { Link } from 'react-router-dom';
 
 const Ship = ({ ship, addToCart }) => {
-  // console.log(props);
-  const img = "https://i.ebayimg.com/images/g/ingAAOSwm8tejYRs/s-l400.jpg";
-  const { id, name, cost_in_credits } = ship;
-
+  const { id, name, cost_in_credits, poster } = ship;
+  
   return (
     <ShipComp>
       <div className="ship-item">
         <Link to={`/ships/${id}`}>
-          <img src='' alt="" />
+          <img src={poster} alt="" />
           <div className="ship-item-footer">
-            <p>{name}</p>
+            <p className="ship-name">{name}</p>
             <p>{cost_in_credits === "unknown" ? Math.ceil(Math.random() * 9438539).toLocaleString() : Number(cost_in_credits).toLocaleString()}</p>
           </div>
         </Link>
@@ -30,11 +28,18 @@ const Ship = ({ ship, addToCart }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToCart: (id) => dispatch(addToCart(id))
+    addToCart: (id) => dispatch(addToCart(id)),
   }
 }
 
-export default connect(null, mapDispatchToProps)(Ship);
+const mapStateToProps = state => {
+  return {
+    ships: state.store.ships,
+    cart: state.store.cart
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ship);
 
 const ShipComp = styled.div`
 .ship-item {
@@ -48,6 +53,10 @@ const ShipComp = styled.div`
   img {
     width: 100%;
     height: 100%;
+  }
+
+  .ship-name {
+    text-transform: capitalize;
   }
 
   .ship-item-footer {
@@ -86,6 +95,12 @@ const ShipComp = styled.div`
 
   &:hover .addToCart {
     transform: translateX(0);
+  }
+}
+
+@media (max-width: 360px) {
+  .ship-item {
+    width: 90vw;
   }
 }
 

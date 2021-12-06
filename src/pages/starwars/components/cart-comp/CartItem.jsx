@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import  { removeFromCart, changeQty } from '../../../../redux/actions';
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import { Tooltip } from '@material-ui/core';
 
 
 const CartItem = ({ cartItem, remove, changeQty }) => {
-  console.log(cartItem);
   const { id, name, itemCount, price } = cartItem;
   
   const [itemQty, setItemQty] = useState(itemCount)
@@ -16,7 +15,6 @@ const CartItem = ({ cartItem, remove, changeQty }) => {
       setItemQty(e.target.value);
       changeQty(id, e.target.value);
     } else { alert("Out of range! Quantity cannot exceed 100 units.")}
-    
   }
 
   return (

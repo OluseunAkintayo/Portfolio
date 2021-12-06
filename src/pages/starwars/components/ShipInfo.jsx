@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Footer from '../../main/components/Footer';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getShip, addToCart, cleanupItem } from '../../../redux/actions';
 import Navbar from './Navbar';
 import { CircularProgress } from '@material-ui/core';
 
 
-const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
+const ShipInfo = ({ cart, ships, ship, getShip, addToCart, cleanupItem }) => {
   const navigate = useNavigate();
-  // const location = useLocation();
   const { shipId } = useParams();
   const findShip = id => {
     const res = ships.find(item => item.id === id);
     getShip(res);
   }
-  const img = "https://starwarsblog.starwars.com/wp-content/uploads/2019/09/lego-star-destroyer-TALL.jpg";
 
-  const [unit, setUnit] = useState(null);
+  const addProduct = (id) => {
+    addToCart(id);
+  }
 
   useEffect(() => {
-    if(shipId && shipId !== '') {
-      findShip(shipId);
-      setUnit(ship);
-    }
+    if(shipId && shipId !== '') findShip(shipId);
     return () => cleanupItem();
   }, [shipId, ship]);
 
@@ -40,7 +37,7 @@ const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
             <h2 className="ship-name">{ship.name}</h2>
             <div className="info-details">
               <div className="ship-img">
-                <img src={img} alt={ship.name} />
+                <img src={ship.poster} alt={ship.name} />
               </div>
               <div className="other-info">
                 <h3 className="price">N {ship.price.toLocaleString()}</h3>
@@ -54,7 +51,7 @@ const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
                 <p><span className="bold">Supplies Span:</span> {ship.consumables}</p>
                 <div className="actions">
                   <button
-                    onClick = {() => addToCart(ship.id)}
+                    onClick = {() => addProduct(ship.id)}
                   >Add Item</button>
                   <div className="space"></div>
                   <button onClick={() => navigate("/projects/starwars")}>Continue Shopping</button>
@@ -73,7 +70,8 @@ const ShipInfo = ({ ships, ship, getShip, addToCart, cleanupItem }) => {
 let mapStateToProps = (state) => {
   return {
     ships: state.store.ships,
-    ship: state.store.ship
+    cart: state.store.cart,
+    ship: state.store.ship,
   }
 }
 
@@ -99,15 +97,19 @@ const ShipInfoComp = styled.section`
 .info-details {
   display: flex;
   justify-content: center;
+  padding: 1rem;
+  max-width: 768px;
+  margin: 0 auto;
   .ship-img {
+    min-width: 300px;
     max-width: 375px;
-    max-height: 375px;
-    margin: 0 1rem;
+    // max-height: 375px;
+    margin: 0 auto;
     border-radius: 0.25rem;
     overflow: hidden;
     img {
       max-width: 100%;
-      height: 100%;
+      height: 80%;
     }
   }
 }
@@ -161,6 +163,13 @@ const ShipInfoComp = styled.section`
   .info-details {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    .ship-img {
+      min-width: unset;
+      img {
+        width: 100%;
+      }
+    }
   }
 
   .price {

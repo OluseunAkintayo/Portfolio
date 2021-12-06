@@ -11,7 +11,7 @@ function Header() {
   }
 
   return (
-    <NavStyled>
+    <NavStyled as={motion.nav}>
       <div className="logo">
         <img src={logo} alt='logo' className="logo-min" />
       </div>
@@ -77,6 +77,7 @@ color: white;
 @media (max-width: 600px) {
   position: fixed;
   width: 100%;
+  z-index: 20;
   .menu-right {
     background: rgb(17, 24, 39);
     position: fixed;

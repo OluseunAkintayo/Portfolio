@@ -50,12 +50,12 @@ class MovApp extends Component {
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name] : value });
-    if ((this.state.searchText).trim() === '') {
-      this.setState((state) => { return { ...state, currentPage: 1} })
-      this.getMovies(this.mov_API)
-    } else if (this.state.searchText) {
-      this.getMovies(this.search + this.state.searchText)
-    }
+    // if ((this.state.searchText).trim() === '') {
+    //   this.setState((state) => { return { ...state, currentPage: 1} })
+    //   this.getMovies(this.mov_API)
+    // } else if (this.state.searchText) {
+    //   this.getMovies(this.search + this.state.searchText)
+    // }
   }
 
   handleSubmit(e) {

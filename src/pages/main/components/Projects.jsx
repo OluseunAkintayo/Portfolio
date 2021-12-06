@@ -16,7 +16,7 @@ const Projects = () => {
   })
 
   const hoverEffect = {
-    whileHover: { scale: 1.05, color: 'rgb(59, 194, 149)' }
+    whileHover: { scale: 1.05, color: 'rgb(59, 194, 249)' }
   }
 
   const boxVariant = {
@@ -59,12 +59,13 @@ const Projects = () => {
                 <img src={sterling} alt="sterling" />
               </div>
               <div className="item-desc">
-                <div className="item-name">
+                <h4 className="item-name">
                   Sterling Meme Generator
-                </div>
-                <div className="item-stack">
-                  React JS | Tailwind CSS | Material UI
-                </div>
+                </h4>
+                <p className="item-desc-details">A completely customizable meme app made for a client in the banking sector</p>
+                <p className="item-stack">
+                  React | Tailwind CSS | Material UI
+                </p>
               </div>
             </a>
           </motion.div>
@@ -74,31 +75,33 @@ const Projects = () => {
                 <img src={movie} alt="movies" />
               </div>
               <div className="item-desc">
-                <div className="item-name">
+                <h4 className="item-name">
                   Movies Search App
-                </div>
-                <div className="item-stack">
-                  React JS
-                </div>
+                </h4>
+                <p className="item-desc-details">Search for trending and top-rated movies</p>
+                <p className="item-stack">
+                  React | Styled-components
+                </p>
               </div>
             </Link>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            {/* <a href="https://starwars.techydna.com" target="_blank" rel="noreferrer"> */}
-            <Link to='/projects/starwars'>
+            <a href="https://starwars.techydna.com" target="_blank">
+            {/* <Link to='/projects/starwars'> */}
               <div className="item-img">
                 <img src={stardestroyer} alt="sterling" />
               </div>
               <div className="item-desc">
-                <div className="item-name">
+                <h4 className="item-name">
                   Star Wars-Themed Cart
-                </div>
-                <div className="item-stack">
-                  React JS
-                </div>
+                </h4>
+                <p className="item-desc-details">Choose a spacecraft for your next space voyage</p>
+                <p className="item-stack">
+                  React JS | Styled-components | Material UI
+                </p>
               </div>
-            </Link>
-            {/* </a> */}
+            {/* </Link> */}
+            </a>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
             <Link to='/'>
@@ -106,12 +109,13 @@ const Projects = () => {
                 <img src={globe} alt="sterling" />
               </div>
               <div className="item-desc">
-                <div className="item-name">
+                <h4 className="item-name">
                   Where in the world?
-                </div>
-                <div className="item-stack">
+                </h4>
+                <p className="item-desc-details">View details of any country in the world: population, currencies  borders, and much more.</p>
+                <p className="item-stack">
                   React JS | Tailwind CSS | Material UI (Coming Soon)
-                </div>
+                </p>
               </div>
             </Link>
           </motion.div>
@@ -147,7 +151,7 @@ color: whitesmoke;
 
 
   a {
-    height: 15rem;
+    height: 18rem;
     width: 15rem;
     border: 1px solid rgba(245, 245, 245, 0.3);
     border-radius: 0.25rem;
@@ -165,7 +169,7 @@ color: whitesmoke;
     }
 
     .item-img {
-      height: 60%;
+      max-height: 50%;
       text-align: center;
       margin-bottom: 1rem;
       img {
@@ -180,7 +184,13 @@ color: whitesmoke;
       line-height: 1.5rem;
       letter-spacing: 0.7px;
       .item-stack {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
+        line-height: 1.125rem;
+      }
+      .item-desc-details {
+        font-size: 0.75rem;
+        margin: 0.375rem 0;
+        line-height: 1.125rem;
       }
     }
   }

@@ -100,7 +100,7 @@ height: 100%;
   padding: 1rem;
   h2 {
     text-align: center;
-    margin: 1rem;
+    margin: 0 1rem 2rem 1rem;
   }  
 }
 
@@ -134,6 +134,7 @@ height: 100%;
 
     .cartItemName {
       min-width: 140px;
+      text-transform: capitalize;
     }
     .price {
       text-align: right;
