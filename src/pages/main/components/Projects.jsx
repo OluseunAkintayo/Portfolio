@@ -86,8 +86,8 @@ const Projects = () => {
             </Link>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <a href="https://starwars.techydna.com" target="_blank">
-            {/* <Link to='/projects/starwars'> */}
+            {/* <a href="https://starwars.techydna.com" target="_blank"> */}
+            <Link to='/projects/starwars'>
               <div className="item-img">
                 <img src={stardestroyer} alt="sterling" />
               </div>
@@ -100,8 +100,8 @@ const Projects = () => {
                   React JS | Styled-components | Material UI
                 </p>
               </div>
-            {/* </Link> */}
-            </a>
+            </Link>
+            {/* </a> */}
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
             <Link to='/'>

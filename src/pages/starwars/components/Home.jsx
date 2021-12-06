@@ -9,6 +9,7 @@ import { getAllShips } from '../../../redux/actions';
 import { CircularProgress } from '@mui/material';
 import { v4 as uuidV4 } from 'uuid';
 import { Search } from '@mui/icons-material';
+import Footer from './Footer';
 
 const Home = ({ getShips, spaceShips }) => {
   // const shipURL = `https://swapi.dev/api/starships/?page=1`;
@@ -90,6 +91,7 @@ const Home = ({ getShips, spaceShips }) => {
   }
 
   return (
+    <>
     <HomeComp>
       <Navbar />
       <div className="form-container">
@@ -117,6 +119,8 @@ const Home = ({ getShips, spaceShips }) => {
         <button onClick={nextPage} className="navigation">Next</button>
       </div>
     </HomeComp>
+    <Footer />
+    </>
   )
 }
 

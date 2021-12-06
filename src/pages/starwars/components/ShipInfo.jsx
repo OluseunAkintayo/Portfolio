@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Footer from '../../main/components/Footer';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { connect } from 'react-redux';
 import { getShip, addToCart, cleanupItem } from '../../../redux/actions';
 import Navbar from './Navbar';
 import { CircularProgress } from '@material-ui/core';
+import Footer from './Footer';
 
 
 const ShipInfo = ({ cart, ships, ship, getShip, addToCart, cleanupItem }) => {
@@ -126,6 +126,12 @@ const ShipInfoComp = styled.section`
     padding: 0 1rem;
     h3 {
       margin-bottom: 1rem;
+      background: rgba(245, 245, 245, 0.1);
+      color: rgb(59, 194, 249);
+      padding: 1rem;
+      text-align: center;
+      letter-spacing: 1.5px;
+      border-radius: 0.25rem;
     }
     p {
       line-height: 1.375rem;
@@ -175,6 +181,7 @@ const ShipInfoComp = styled.section`
   .price {
     text-align: center;
     margin-bottom: 2rem;
+    padding: 1rem;
   }
 
   .other-info {
