@@ -22,6 +22,7 @@ const ShipInfo = ({ cart, ships, ship, getShip, addToCart, cleanupItem }) => {
   }
 
   useEffect(() => {
+    window.scrollTo(0,0);
     if(shipId && shipId !== '') findShip(shipId);
     return () => cleanupItem();
   }, [shipId, ship]);
@@ -101,9 +102,7 @@ const ShipInfoComp = styled.section`
   max-width: 768px;
   margin: 0 auto;
   .ship-img {
-    min-width: 300px;
-    max-width: 375px;
-    // max-height: 375px;
+    width: 55vw;
     margin: 0 auto;
     border-radius: 0.25rem;
     overflow: hidden;
@@ -124,6 +123,7 @@ const ShipInfoComp = styled.section`
 
   .other-info {
     padding: 0 1rem;
+    width: 100%;
     h3 {
       margin-bottom: 1rem;
       background: rgba(245, 245, 245, 0.1);
@@ -132,6 +132,7 @@ const ShipInfoComp = styled.section`
       text-align: center;
       letter-spacing: 1.5px;
       border-radius: 0.25rem;
+      font-size: 1.5rem;
     }
     p {
       line-height: 1.375rem;
@@ -148,7 +149,7 @@ const ShipInfoComp = styled.section`
     margin: 1rem 0;
     display: flex;
     .space {
-      width: 1rem;
+      width: 1.5rem;
     }
     button {
       height: 2.5rem;
@@ -166,12 +167,19 @@ const ShipInfoComp = styled.section`
 }
 
 @media(max-width: 640px) {
+
+  .info-wrapper {
+    width: 100%;
+  }
+
   .info-details {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
     .ship-img {
-      min-width: unset;
+      width: 100%;
+      padding: 1rem;
       img {
         width: 100%;
       }
@@ -197,6 +205,7 @@ const ShipInfoComp = styled.section`
 }
 
 @media (max-width: 375px) {
+  .other-info { padding: unset; }
   .space {
     display: none;
   }

@@ -16,7 +16,7 @@ function App() {
         <Route path="projects/movies" element={<MovApp />} />
         <Route path="/movies/movie/id/:movieId" element={<MovieInfo />} />
         <Route path="/projects/starwars" element={<Starwars />} />
-        <Route path="/ships/:shipId" element={<ShipInfo />} />
+        <Route path="/ships/ship/id/:shipId" element={<ShipInfo />} />
         <Route path="/ships/checkout" element={<Cart />} />
       </Routes>
     </BrowserRouter>

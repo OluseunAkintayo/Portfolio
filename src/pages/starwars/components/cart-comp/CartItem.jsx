@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+// import styled from 'styled-components';
 import  { removeFromCart, changeQty } from '../../../../redux/actions';
 import { connect } from 'react-redux';
-import { AddCircleOutline, RemoveCircleOutline, Delete } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import { Tooltip } from '@material-ui/core';
 
 
@@ -50,13 +50,13 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(null, mapDispatchToProps)(CartItem);
 
-const CartItemComp = styled.div`
-max-width: 650px;
-border: 1px solid whitesmoke;
-border-radius: 0.25rem;
-margin-bottom: 1.5rem;
-height: 2.5rem;
-display: flex;
-align-items: center;
-padding: 0.25rem 1rem;
-`;
+// const CartItemComp = styled.div`
+// max-width: 650px;
+// border: 1px solid whitesmoke;
+// border-radius: 0.25rem;
+// margin-bottom: 1.5rem;
+// height: 2.5rem;
+// display: flex;
+// align-items: center;
+// padding: 0.25rem 1rem;
+// `;

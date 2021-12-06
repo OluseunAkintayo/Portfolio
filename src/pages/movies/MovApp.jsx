@@ -136,7 +136,7 @@ class MovApp extends Component {
     return (
       <>
         <header>
-          <Link to="/movies" className="movies-header">IMDB Trending Movies</Link>
+          <Link to="/projects/movies" className="movies-header"><h3>IMDB Movies</h3></Link>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"

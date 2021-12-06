@@ -12,7 +12,6 @@ import { Search } from '@mui/icons-material';
 import Footer from './Footer';
 
 const Home = ({ getShips, spaceShips }) => {
-  // const shipURL = `https://swapi.dev/api/starships/?page=1`;
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(2);
@@ -40,7 +39,7 @@ const Home = ({ getShips, spaceShips }) => {
   useEffect(() => {
     window.scrollTo(0,0);
     getItems(vessels);
-  }, []);
+  }, [getItems]);
 
   const options = {
     // includeMatches: false,

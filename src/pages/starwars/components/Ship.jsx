@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { addToCart } from '../../../redux/actions';
@@ -10,7 +10,7 @@ const Ship = ({ ship, addToCart }) => {
   return (
     <ShipComp>
       <div className="ship-item">
-        <Link to={`/ships/${id}`}>
+        <Link to={`/ships/ship/id/${id}`}>
           <img src={poster} alt="" />
           <div className="ship-item-footer">
             <p className="ship-name">{name}</p>
