@@ -10,6 +10,7 @@ import { CircularProgress } from '@mui/material';
 import { v4 as uuidV4 } from 'uuid';
 import { Search } from '@mui/icons-material';
 import Footer from './Footer';
+import saveScrollPosition from '../../../assets/utils/utils';
 
 const Home = ({ getShips, spaceShips }) => {
   const [loading, setLoading] = useState(false);
@@ -37,9 +38,13 @@ const Home = ({ getShips, spaceShips }) => {
   }
   
   useEffect(() => {
-    window.scrollTo(0,0);
+    saveScrollPosition();
     getItems(vessels);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("ships", JSON.stringify(spaceShips));
+  }, [spaceShips]);
 
   const options = {
     // includeMatches: false,
@@ -47,7 +52,7 @@ const Home = ({ getShips, spaceShips }) => {
     keys: ["name"],
   }
 
-  const fuse = new Fuse(spaceShips, options);
+  const fuse = new Fuse(vessels, options);
 
   const nextPage = () => {
     if(currentPage < 2 && pages > 1) {

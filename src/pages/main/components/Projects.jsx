@@ -7,6 +7,7 @@ import sterling from '../../../assets/sterling.png';
 import movie from "../../../assets/movie.jpg";
 import stardestroyer from '../../../assets/stardestroyer.jpg';
 import globe from '../../../assets/globe.png';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const Projects = () => {
 
@@ -70,7 +71,7 @@ const Projects = () => {
             </a>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <Link to='/projects/movies'>
+            <Link to='/movies'>
               <div className="item-img">
                 <img src={movie} alt="movies" />
               </div>
@@ -87,7 +88,7 @@ const Projects = () => {
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
             {/* <a href="https://starwars.techydna.com" target="_blank"> */}
-            <Link to='/projects/starwars'>
+            <Link to='/starships'>
               <div className="item-img">
                 <img src={stardestroyer} alt="sterling" />
               </div>
@@ -96,9 +97,7 @@ const Projects = () => {
                   Star Wars-Themed Cart
                 </h4>
                 <p className="item-desc-details">Choose a spacecraft for your next space voyage</p>
-                <p className="item-stack">
-                  React JS | Styled-components | Material UI
-                </p>
+                <p className="item-stack">React JS | Styled-components | Material UI</p>
               </div>
             </Link>
             {/* </a> */}
@@ -106,16 +105,12 @@ const Projects = () => {
           <motion.div variants={childVariant} {...hoverEffect}>
             <Link to='/'>
               <div className="item-img">
-                <img src={globe} alt="sterling" />
+                <DashboardIcon style={{ fontSize: '7.5rem', borderRadius: '50%' }} />
               </div>
               <div className="item-desc">
-                <h4 className="item-name">
-                  Where in the world?
-                </h4>
-                <p className="item-desc-details">View details of any country in the world: population, currencies  borders, and much more.</p>
-                <p className="item-stack">
-                  React JS | Tailwind CSS | Material UI (Coming Soon)
-                </p>
+                <h4 className="item-name">Admin Dashboard</h4>
+                <p className="item-desc-details">Visualize data and perform administrative tasks</p>
+                <p className="item-stack">MERN Stack <br /> (Coming Soon)</p>
               </div>
             </Link>
           </motion.div>

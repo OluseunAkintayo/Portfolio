@@ -8,62 +8,71 @@ import Navbar from './Navbar';
 import { CircularProgress } from '@material-ui/core';
 import Footer from './Footer';
 
-
-const ShipInfo = ({ cart, ships, ship, getShip, addToCart, cleanupItem }) => {
-  const navigate = useNavigate();
-  const { shipId } = useParams();
-  const findShip = id => {
-    const res = ships.find(item => item.id === id);
+let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
+  let navigate = useNavigate();
+  let { shipName } = useParams();
+  let newShips = JSON.parse(localStorage.getItem("ships"));
+  let findShip = name => {
+    let res = newShips.find(item => item.name.toLowerCase() === name);
     getShip(res);
   }
-
-  const addProduct = (id) => {
+  let addProduct = (id) => {
     addToCart(id);
   }
+  
+  let [title, setTitle] = React.useState(document.title);
 
   useEffect(() => {
     window.scrollTo(0,0);
-    if(shipId && shipId !== '') findShip(shipId);
-    return () => cleanupItem();
-  }, [shipId, ship]);
+    findShip(shipName);
+  }, [shipName]);
+
+  useEffect(() => {
+    let prev = document.title;
+    ship !== null ? setTitle(ship.name) : setTitle(document.title);
+    document.title = title;
+    return () => {
+      document.title = prev;
+    };
+  }, [ship, title]);
 
   return (
     <>
-    <ShipInfoComp>
-      <Navbar />
-      {ship === null || ship === undefined ?
-        (<div className="loadingShip"><CircularProgress size="5rem" /></div>)
-        : (
-          <div className="info-wrapper">
-            <h2 className="ship-name">{ship.name}</h2>
-            <div className="info-details">
-              <div className="ship-img">
-                <img src={ship.poster} alt={ship.name} />
-              </div>
-              <div className="other-info">
-                <h3 className="price">N {ship.price.toLocaleString()}</h3>
-                <p><span className="bold">Manufacturer:</span> {ship.manufacturer}</p>
-                <p><span className="bold">Model:</span> {ship.model}</p>
-                <p><span className="bold">Class:</span> {ship.manufacturer}</p>
-                <p><span className="bold">Overdrive rating:</span> {ship.starship_class}</p>
-                <p><span className="bold">Cargo Capacity:</span> {ship.cargo_capacity}</p>
-                <p><span className="bold">Crew Count:</span> {ship.manufacturer}</p>
-                <p><span className="bold">Passenger Capacity:</span> {ship.passengers}</p>
-                <p><span className="bold">Supplies Span:</span> {ship.consumables}</p>
-                <div className="actions">
-                  <button
-                    onClick = {() => addProduct(ship.id)}
-                  >Add Item</button>
-                  <div className="space"></div>
-                  <button onClick={() => navigate("/projects/starwars")}>Continue Shopping</button>
+      <ShipInfoComp>
+        <Navbar />
+        {ship === null || ship === undefined ?
+          (<div className="loadingShip"><CircularProgress size="5rem" /></div>)
+          : (
+            <div className="info-wrapper">
+              <h2 className="ship-name">{ship.name}</h2>
+              <div className="info-details">
+                <div className="ship-img">
+                  <img src={ship.poster} alt={ship.name} />
+                </div>
+                <div className="other-info">
+                  <h3 className="price">N {ship.price.toLocaleString()}</h3>
+                  <p><span className="bold">Manufacturer:</span> {ship.manufacturer}</p>
+                  <p><span className="bold">Model:</span> {ship.model}</p>
+                  <p><span className="bold">Class:</span> {ship.manufacturer}</p>
+                  <p><span className="bold">Overdrive rating:</span> {ship.starship_class}</p>
+                  <p><span className="bold">Cargo Capacity:</span> {ship.cargo_capacity}</p>
+                  <p><span className="bold">Crew Count:</span> {ship.manufacturer}</p>
+                  <p><span className="bold">Passenger Capacity:</span> {ship.passengers}</p>
+                  <p><span className="bold">Supplies Span:</span> {ship.consumables}</p>
+                  <div className="actions">
+                    <button onClick = {() => addProduct(ship.id)}>
+                      Add Item
+                    </button>
+                    <div className="space"></div>
+                    <button onClick={() => navigate("/starwars")}>Continue Shopping</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )
-      }
-    </ShipInfoComp>
-    <Footer />
+          )
+        }
+      </ShipInfoComp>
+      <Footer />
     </>
   )
 }
@@ -71,7 +80,7 @@ const ShipInfo = ({ cart, ships, ship, getShip, addToCart, cleanupItem }) => {
 let mapStateToProps = (state) => {
   return {
     ships: state.store.ships,
-    cart: state.store.cart,
+    cart: localStorage.setItem("cart", JSON.stringify(state.store.cart)),
     ship: state.store.ship,
   }
 }
@@ -86,7 +95,7 @@ let mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShipInfo);
 
-const ShipInfoComp = styled.section`
+let ShipInfoComp = styled.section`
 
 .loadingShip {
   height: 50vh;

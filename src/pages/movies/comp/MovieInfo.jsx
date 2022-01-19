@@ -16,8 +16,9 @@ const MovieInfo = () => {
   
   const getMovieItem = (id) => {
     setLoading(true);
-    const result = moviesArray.filter(item => item.id === Number(id));
-    setInfo(result[0]);
+    const result = moviesArray.find(item => item.id === Number(id));
+    console.log(result)
+    setInfo(result);
     setLoading(false);
   }
 
@@ -35,7 +36,7 @@ const MovieInfo = () => {
   return (
     <MovieInfoComp style={info !== undefined && !loading ? bg : null}>
       <h2 className="main-title">Movie Details</h2>
-      <button onClick={() => navigate("/projects/movies")}>
+      <button onClick={() => navigate("/movies")}>
         <ArrowBack className="arrowIcon" />
       </button>
       <div className="info-wrapper">

@@ -13,12 +13,13 @@ const Navbar = ({ cart }) => {
       cartCount += item.itemCount;
     });
     setCount(cartCount);
-  }, [cart, count])
+  }, [cart, count]);
+
   return (
     <NavComp>
-      <h3><Link to="/projects/starwars">Star Wars</Link></h3>
+      <h3><Link to="/starships">Star Ships</Link></h3>
       <div className="cart-link">
-        <Link to="/ships/checkout">
+        <Link to="/starships/checkout">
           <ShoppingCartCheckout className="cartIcon" />
           <div className="cart-length">{count}</div>
         </Link>
@@ -31,7 +32,7 @@ const mapStateToProps = state => {
   return {
     cart: state.store.cart
   }
-}
+};
 
 export default connect(mapStateToProps)(Navbar);
 

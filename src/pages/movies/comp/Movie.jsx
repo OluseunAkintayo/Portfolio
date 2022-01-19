@@ -15,7 +15,7 @@ let Movie = (props) => {
     }
 
     return (
-        <Link to={`/movies/movie/id/${id}`} className="movie-item" onClick={() => props.getMovie(id)}>
+        <Link to={`/movies/${id}`} className="movie-item" onClick={() => props.getMovie(id)}>
             <img src={!poster_path ? alt_IMG : images + poster_path} alt={title} />
             <div className="movie-info">
                 <h3 className="movie-title">{title}</h3>

@@ -13,11 +13,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainApp />} />
-        <Route path="projects/movies" element={<MovApp />} />
-        <Route path="/movies/movie/id/:movieId" element={<MovieInfo />} />
-        <Route path="/projects/starwars" element={<Starwars />} />
-        <Route path="/ships/ship/id/:shipId" element={<ShipInfo />} />
-        <Route path="/ships/checkout" element={<Cart />} />
+        <Route path="/movies" element={<MovApp />} />
+        <Route path="/movies/:movieId" element={<MovieInfo />} />
+        <Route path="/starships" element={<Starwars />} />
+        <Route path="/starships/:shipName" element={<ShipInfo />} />
+        <Route path="/starships/checkout" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );

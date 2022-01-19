@@ -24,39 +24,43 @@ class MovApp extends Component {
   search = `https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=`;
 
   getMovies(API) {
-    this.setState((state) => { return { loading: false } });
+    this.setState((state) => { 
+      return { ...state, loading: true }
+     });
     fetch(API)
       .then(res => res.json()).then(movies => {
         if(movies.results.length > 0) {
           localStorage.setItem('mov', JSON.stringify(movies))
-          this.setState((state) => { return { movies: movies.results } });
-          this.setState((state) => { return { loading: false } });
-          this.setState((state) => { return { totalPages: movies.total_pages } });
+          this.setState((state) => { 
+            return {
+              ...state,
+              movies: movies.results,
+              totalPages: movies.total_pages,
+              loading: false
+            }
+          });
         }
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log({err});
-        this.setState((state) => { return { totalPages: 1 } });
-        this.setState((state) => { return { error: 'Unable to fetch movies. Please check your network and try again' } });
-        this.setState({ loading: false });
+        this.setState((state) => { 
+          return {
+            totalPages: 1,
+            error: 'Unable to fetch movies. Please check your network and try again.',
+            loading: false
+          } 
+        });
       });
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.getMovies(this.mov_API + this.state.currentPage);
-    // this.getMovies(this.search)
-  }
+  };
 
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name] : value });
-    // if ((this.state.searchText).trim() === '') {
-    //   this.setState((state) => { return { ...state, currentPage: 1} })
-    //   this.getMovies(this.mov_API)
-    // } else if (this.state.searchText) {
-    //   this.getMovies(this.search + this.state.searchText)
-    // }
-  }
+  };
 
   handleSubmit(e) {
     e.preventDefault();
@@ -65,7 +69,7 @@ class MovApp extends Component {
     } else if (this.state.searchText) {
       this.getMovies(this.search + this.state.searchText + `&page=` + this.state.currentPage)
     }
-  }
+  };
 
   prevPage = () => {
     if(this.state.currentPage > 1) {
@@ -86,7 +90,7 @@ class MovApp extends Component {
         return this.state.currentPage;
       }
     }
-  }
+  };
 
   nextPage = () => {
     if(this.state.currentPage < this.state.totalPages) {
@@ -109,11 +113,11 @@ class MovApp extends Component {
     } else  {
       return this.state.currentPage;
     }
-  }
+  };
 
   getMovie = id => {
     const result = this.state.movies.filter(item => item.id === id)
-  }
+  };
   
   render() {
     let movArray = this.state.movies.map(movItem => <Movie movItem={movItem} key={movItem.id} getMovie={this.getMovie} />);
@@ -136,7 +140,7 @@ class MovApp extends Component {
     return (
       <>
         <header>
-          <Link to="/projects/movies" className="movies-header"><h3>IMDB Movies</h3></Link>
+          <Link to="/movies" className="movies-header"><h3>IMDB Movies</h3></Link>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"

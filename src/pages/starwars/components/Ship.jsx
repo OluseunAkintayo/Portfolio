@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { addToCart } from '../../../redux/actions';
 import { Link } from 'react-router-dom';
 
-const Ship = ({ ship, addToCart }) => {
+const Ship = ({ ship, addToCart, cart }) => {
   const { id, name, cost_in_credits, poster } = ship;
+
+  const addProduct = (id) => {
+    addToCart(id);
+  }
   
   return (
     <ShipComp>
       <div className="ship-item">
-        <Link to={`/ships/ship/id/${id}`}>
+        <Link to={`/starships/${name.toLowerCase()}`}>
           <img src={poster} alt="" />
           <div className="ship-item-footer">
             <p className="ship-name">{name}</p>
@@ -19,7 +23,7 @@ const Ship = ({ ship, addToCart }) => {
         </Link>
         <button
           className="addToCart"
-          onClick = {() => addToCart(id)}
+          onClick = {() => addProduct(id)}
         >Add Item</button>
       </div>
     </ShipComp>
