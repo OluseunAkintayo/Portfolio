@@ -103,7 +103,7 @@ const Projects = () => {
             {/* </a> */}
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <Link to='/dashboard'>
+            <Link to='/'>
               <div className="item-img">
                 <DashboardIcon style={{ fontSize: '7.5rem', borderRadius: '50%' }} />
               </div>

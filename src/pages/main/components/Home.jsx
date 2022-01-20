@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ArrowUpward } from '@mui/icons-material';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip } from '@mui/material';
 
 const Home = () => {
 

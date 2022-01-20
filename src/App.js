@@ -7,6 +7,7 @@ import ShipInfo from './pages/starwars/components/ShipInfo';
 import Cart from './pages/starwars/components/Cart';
 import Dashboard from './pages/dashboard/Dashboard';
 import Login from './pages/dashboard/comp/Login';
+import Login_II from './pages/dashboard/comp/Login_II';
 
 
 
@@ -23,7 +24,9 @@ function App() {
         <Route path="/starships/:shipName" element={<ShipInfo />} />
         <Route path="/starships/checkout" element={<Cart />} />
         {/* Dashboard */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard/login" element={<Login />} />
+        <Route path="/admin/auth" element={<Login_II />} />
+        <Route path="/admin/home" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

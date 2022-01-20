@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getShip, addToCart, cleanupItem } from '../../../redux/actions';
 import Navbar from './Navbar';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import Footer from './Footer';
 
 let ShipInfo = ({ cart, ship, getShip, addToCart }) => {

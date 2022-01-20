@@ -38,7 +38,7 @@ const Home = ({ getShips, spaceShips }) => {
   }
   
   useEffect(() => {
-    saveScrollPosition();
+    window.scrollTo(0, 0);
     getItems(vessels);
   }, []);
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Movie from './comp/Movie';
 import Footer from './comp/Footer';
 import './comp/style.css'
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 
 class MovApp extends Component {
   constructor(){

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import  { removeFromCart, changeQty } from '../../../../redux/actions';
 import { connect } from 'react-redux';
 import { Delete } from '@mui/icons-material';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip } from '@mui/material';
 
 
 const CartItem = ({ cartItem, remove, changeQty }) => {
