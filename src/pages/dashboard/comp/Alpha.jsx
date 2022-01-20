@@ -1,10 +1,12 @@
 import React from "react";
-import Topnav from "./Topnav";
+import Nav from "./TopnNav";
+import Sidebar from "./Sidebar";
 
 const Alpha = () => {
   return (
     <div style={{ background: '#fff', color: '#00000090' }}>
-      <Topnav />
+      <Nav />
+      <Sidebar />
     </div>
   )
 }

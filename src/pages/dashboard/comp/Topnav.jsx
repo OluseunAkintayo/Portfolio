@@ -5,7 +5,7 @@ import { styled as muiStyled, alpha, InputBase } from '@mui/material';
 
 const Topnav = () => {
   const [searchText, setSearchText] = React.useState('');
-  console.log(searchText);
+  const menu = ['Profile', 'Logout'];
 
   return (
     <React.Fragment>

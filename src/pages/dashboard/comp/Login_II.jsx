@@ -38,9 +38,10 @@ const Login_II = () => {
           sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true"
           onChange={handleChange('usr')}
         />
-        <FormControl sx={{ marginY: 2, width: '100%' }} variant="outlined">
+        <FormControl sx={{ marginY: 2, width: '100%', }} variant="outlined">
           <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
           <OutlinedInput
+            sx={{ height: '100%' }}
             id="outlined-adornment-password"
             type={values.showPasscode ? 'text' : 'password'}
             value={values.passcode}
@@ -50,7 +51,6 @@ const Login_II = () => {
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handlePasswordToggle}
-                  // onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
                   {values.showPasscode ? <VisibilityOff /> : <Visibility />}
@@ -75,14 +75,14 @@ export default Login_II;
 
 const LoginBtn = muiStyled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[500]),
-  backgroundColor: blue[500],
+  backgroundColor: blue[600],
   '&:hover': {
     backgroundColor: blue[700],
     transition: 'ease-out 0.3s'
   },
   width: '100%',
   margin: '0.5rem 0',
-  height: '3.5rem'
+  height: '3rem'
 }));
 
 const Login_II_Comp = styled.div`
