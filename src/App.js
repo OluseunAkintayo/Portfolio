@@ -5,11 +5,9 @@ import MovieInfo from './pages/movies/comp/MovieInfo';
 import Starwars from './pages/starwars/Starwars';
 import ShipInfo from './pages/starwars/components/ShipInfo';
 import Cart from './pages/starwars/components/Cart';
-import Dashboard from './pages/dashboard/Dashboard';
-import Login from './pages/dashboard/comp/Login';
-import Login_II from './pages/dashboard/comp/Login_II';
-
-
+import Login_II from './pages/dashboard/comp/Pages/Login_II';
+import MainDash from './pages/dashboard/comp/Pages/Dashboard/Main';
+import Accounts from './pages/dashboard/comp/Pages/Users/Accounts';
 
 function App() {
   return (
@@ -24,9 +22,10 @@ function App() {
         <Route path="/starships/:shipName" element={<ShipInfo />} />
         <Route path="/starships/checkout" element={<Cart />} />
         {/* Dashboard */}
-        <Route path="/dashboard/login" element={<Login />} />
         <Route path="/admin/auth" element={<Login_II />} />
-        <Route path="/admin/home" element={<Dashboard />} />
+        <Route path="/admin/home" element={<MainDash />} />
+        <Route path="/admin/users" element={<Accounts />} />
+
       </Routes>
     </BrowserRouter>
   );
