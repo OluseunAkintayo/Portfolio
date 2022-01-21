@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Breadcrumbs } from '@mui/material';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const BreadComp = (props) => {
   return (
@@ -10,11 +10,11 @@ const BreadComp = (props) => {
           {props.parent}
         </Link>
         <Link underline="hover" to=''>
-          {props.subParent}
-        </Link>
-        <Typography color="text.primary">
           {props.currentPage}
-        </Typography>
+        </Link>
+        {/* <Typography color="text.primary">
+          {props.currentPage}
+        </Typography> */}
       </Breadcrumbs>
     </div>
   );

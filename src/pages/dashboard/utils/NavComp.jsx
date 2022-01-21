@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DrawerHeader from './DrawerHeader';
 import { styled, useTheme } from '@mui/material/styles';
-import { IconButton, ListItemText, ListItem, ListItemIcon, CssBaseline, Box, List, Toolbar, alpha, Divider, Typography, InputBase, Badge, MenuItem, Menu } from '@mui/material';
+import { IconButton, Link, ListItemText, ListItem, ListItemIcon, CssBaseline, Box, List, Toolbar, alpha, Divider, Typography, InputBase, Badge, MenuItem, Menu } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -224,7 +224,7 @@ export default function NavComp({ NavPage }) {
   return (
     <Box sx={{ display: 'flex', }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ padding: 0 }}>
+      <AppBar position="fixed" open={open} sx={{ padding: 0, background: '#1c1d72' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="h6" noWrap component="div">
@@ -244,7 +244,7 @@ export default function NavComp({ NavPage }) {
             </IconButton>
           </div>
           <Box sx={{ flexGrow: 1 }} />
-          <SearchComp>
+            <SearchComp>
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
