@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainApp from "./pages/main/MainApp";
 import MovApp from './pages/movies/MovApp';
 import MovieInfo from './pages/movies/comp/MovieInfo';
@@ -8,25 +8,28 @@ import Cart from './pages/starwars/components/Cart';
 import Login_II from './pages/dashboard/comp/Pages/Login_II';
 import MainDash from './pages/dashboard/comp/Pages/Dashboard/Main';
 import Accounts from './pages/dashboard/comp/Pages/Users/Accounts';
+import ProtectedRoute from './assets/utils/ProtectedRoute';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:5000/";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainApp />} />
+      <Switch>
+        <Route path="/" exact component={MainApp} />
         {/* movies */}
-        <Route path="/movies" element={<MovApp />} />
-        <Route path="/movies/:movieId" element={<MovieInfo />} />
+        <Route path="/movies" exact component={MovApp} />
+        <Route path="/movies/:movieId" exact component={MovieInfo} />
         {/* starships */}
-        <Route path="/starships" element={<Starwars />} />
-        <Route path="/starships/:shipName" element={<ShipInfo />} />
-        <Route path="/starships/checkout" element={<Cart />} />
+        <Route path="/starships" exact component={Starwars} />
+        <Route path="/starships/:shipName" exact component={ShipInfo} />
+        <Route path="/starships/checkout" exact component={Cart} />
         {/* Dashboard */}
-        <Route path="/admin/auth" element={<Login_II />} />
-        <Route path="/admin/home" element={<MainDash />} />
-        <Route path="/admin/users" element={<Accounts />} />
-
-      </Routes>
+        <Route path="/admin/auth" exact component={Login_II} />
+        <ProtectedRoute path="/admin/home" exact component={MainDash} />
+        <ProtectedRoute path="/admin/users" exact component={Accounts} />
+      </Switch>
     </BrowserRouter>
   );
 }

@@ -36,4 +36,5 @@ const MainDash = () => {
   });
   return <NavComp NavPage={<Main />} />
 };
+
 export default MainDash;

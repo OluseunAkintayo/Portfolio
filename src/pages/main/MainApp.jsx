@@ -20,7 +20,7 @@ const MainApp = () => {
       <Contact />
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default MainApp
+export default MainApp;

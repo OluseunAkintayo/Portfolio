@@ -12,7 +12,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import MailIcon from '@mui/icons-material/Mail';
 import { Search, Home, List as IconList, AccountBalance, Layers, Assessment, CalendarToday, Inventory, AddShoppingCart, Archive } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { endSession } from '../../../assets/utils/HandleAuth';
 
 const drawerWidth = 220;
 
@@ -36,8 +37,6 @@ const closedMixin = (theme) => ({
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
 });
-
-
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -121,7 +120,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function NavComp({ NavPage }) {
-  const navigate = useNavigate();
+  const history = useHistory();
   const [searchText, setSearchText] = React.useState('');
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -168,7 +167,9 @@ export default function NavComp({ NavPage }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {menuItems.map(item => <MenuItem onClick={handleMenuClose}>{item}</MenuItem>)}
+      {menuItems.map((item, i) => 
+        <MenuItem onClick={() => {handleMenuClose(); (item === "Logout") && endSession(); }} key={i}>{item}</MenuItem>
+      )}
     </Menu>
   );
 
@@ -186,8 +187,8 @@ export default function NavComp({ NavPage }) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+        <IconButton size="large" aria-label="show 14 new mails" color="inherit">
+          <Badge badgeContent={14} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -196,10 +197,10 @@ export default function NavComp({ NavPage }) {
       <MenuItem>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show 8 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={8} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -308,7 +309,7 @@ export default function NavComp({ NavPage }) {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem button onClick={() => navigate("/admin/home")}>
+          <ListItem button onClick={() => history.push("/admin/home")}>
             <ListItemIcon>
               <Home /></ListItemIcon>
             <ListItemText primary="Home" />
@@ -316,7 +317,7 @@ export default function NavComp({ NavPage }) {
         </List>
         <Divider />
         <List>
-          <ListItem button onClick={() => navigate("/admin/users")}>
+          <ListItem button onClick={() => history.push("/admin/users")}>
             <ListItemIcon><AccountCircle /></ListItemIcon>
             <ListItemText primary="Accounts" />
           </ListItem>
@@ -367,4 +368,4 @@ export default function NavComp({ NavPage }) {
       {NavPage}
     </Box>
   );
-}
+};

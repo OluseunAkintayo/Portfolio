@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getShip, addToCart, cleanupItem } from '../../../redux/actions';
 import Navbar from './Navbar';
@@ -9,7 +9,7 @@ import { CircularProgress } from '@mui/material';
 import Footer from './Footer';
 
 let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
-  let navigate = useNavigate();
+  let history = useHistory();
   let { shipName } = useParams();
   let newShips = JSON.parse(localStorage.getItem("ships"));
   let findShip = name => {
@@ -64,7 +64,7 @@ let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
                       Add Item
                     </button>
                     <div className="space"></div>
-                    <button onClick={() => navigate("/starwars")}>Continue Shopping</button>
+                    <button onClick={() => history.push("/starwars")}>Continue Shopping</button>
                   </div>
                 </div>
               </div>

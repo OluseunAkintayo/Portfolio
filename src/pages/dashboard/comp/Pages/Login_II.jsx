@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
-import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox, CircularProgress, Typography } from '@mui/material/';
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Login_II = () => {
-  const navigate = useNavigate();
-
+const Login_II = (props) => {
+  const history = useHistory();
   const [values, setValues] = React.useState({
     usr: '', passcode: '',
     showPasscode: false, loading: false, rememberMe: false
@@ -16,7 +16,6 @@ const Login_II = () => {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-
   const handlePasswordToggle = () => {
     setValues({
       ...values,
@@ -28,12 +27,36 @@ const Login_II = () => {
     setValues({ ...values, rememberMe: !values.rememberMe });
   }
 
+  const login = e => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "username": values.usr,
+      "passcode": values.passcode
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:5000/api/v2/auth/login", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => console.log('error', error));
+  }
+
   return (
     <Login_II_Comp>
       <Box
         sx={{ maxWidth: '400px', width: '100%', border: '1px solid lightgray', p: '1.5rem' }}
       >
-        <h3>Login to Admin Console</h3>
+        <Typography sx={{ fontSize: '2.5ch', color: 'rgba(0, 0, 0, 0.6)' }}>Login to Admin Console</Typography>
         <TextField
           sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true"
           onChange={handleChange('usr')}
@@ -62,15 +85,16 @@ const Login_II = () => {
         </FormControl>
         <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Remember me" />
         <LoginBtn
-          variant="contained" endIcon={<Login />}
-          onClick={() => navigate("/admin/home")}
+          variant="contained" endIcon={!values.loading && <Login />}
+          onClick={() => history.push('/admin/home')}
         >
-          Login
+          {!values.loading ? 'Login' : <CircularProgress sx={{ color: 'white'}} size="3.5ch" />}
         </LoginBtn>
       </Box>
     </Login_II_Comp>
-  )
-}
+  );
+};
+
 export default Login_II;
 
 const LoginBtn = muiStyled(Button)(({ theme }) => ({
