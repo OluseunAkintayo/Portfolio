@@ -7,14 +7,14 @@ import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, Inp
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
 import axios from 'axios';
 
-const Login_II = (props) => {
+const Login_II = () => {
   const history = useHistory();
   const [values, setValues] = React.useState({
-    usr: '', passcode: '',
+    usr: '', passcode: '', warning: null,
     showPasscode: false, loading: false, rememberMe: false
   });
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({ ...values, [prop]: event.target.value, warning: null });
   };
   const handlePasswordToggle = () => {
     setValues({
@@ -28,27 +28,46 @@ const Login_II = (props) => {
   }
 
   const login = e => {
-    var myHeaders = new Headers();
+    e.preventDefault();
+    setValues({ ...values, loading: true });
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       "username": values.usr,
       "passcode": values.passcode
     });
 
-    var requestOptions = {
+    const requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     };
+    
+    const newData = JSON.parse(raw);
+    const { username, passcode } = newData;
 
-    fetch("http://localhost:5000/api/v2/auth/login", requestOptions)
+    if(username.trim() === '' || passcode.trim() === '') {
+      setValues({ ...values, warning: "Username or password cannot be empty", loading: false });
+    } else {
+      fetch("http://localhost:5000/api/v2/auth/login", requestOptions)
       .then(response => response.json())
       .then(result => {
+        setValues({ ...values, loading: false });
         console.log(result);
+        if(result.success === true) {
+          console.log(result);
+          sessionStorage.setItem("sessionToken", result.accessToken);
+          sessionStorage.setItem("usrData", JSON.stringify(result.data));
+          history.push("/admin/home");
+        }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {
+        setValues({ ...values, loading: false });
+        console.log({error});
+      });
+    }
   }
 
   return (
@@ -84,9 +103,10 @@ const Login_II = (props) => {
           />
         </FormControl>
         <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Remember me" />
+        {values.warning && <Typography sx={{ color: 'red', marginY: '1ch'}}>{values.warning}</Typography>}
         <LoginBtn
           variant="contained" endIcon={!values.loading && <Login />}
-          onClick={() => history.push('/admin/home')}
+          onClick={(e) => login(e)}
         >
           {!values.loading ? 'Login' : <CircularProgress sx={{ color: 'white'}} size="3.5ch" />}
         </LoginBtn>

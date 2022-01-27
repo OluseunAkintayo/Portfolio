@@ -6,7 +6,7 @@ import Starwars from './pages/starwars/Starwars';
 import ShipInfo from './pages/starwars/components/ShipInfo';
 import Cart from './pages/starwars/components/Cart';
 import Login_II from './pages/dashboard/comp/Pages/Login_II';
-import MainDash from './pages/dashboard/comp/Pages/Dashboard/Main';
+import MainDash from './pages/dashboard/comp/Pages/Dashboard/MainDash';
 import Accounts from './pages/dashboard/comp/Pages/Users/Accounts';
 import ProtectedRoute from './assets/utils/ProtectedRoute';
 import axios from 'axios';

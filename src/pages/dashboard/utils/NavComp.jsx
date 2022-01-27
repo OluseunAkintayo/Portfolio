@@ -121,6 +121,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavComp({ NavPage }) {
   const history = useHistory();
+  const logout = () => {
+    endSession();
+    history.push("/admin/auth");
+  }
   const [searchText, setSearchText] = React.useState('');
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -168,7 +172,7 @@ export default function NavComp({ NavPage }) {
       onClose={handleMenuClose}
     >
       {menuItems.map((item, i) => 
-        <MenuItem onClick={() => {handleMenuClose(); (item === "Logout") && endSession(); }} key={i}>{item}</MenuItem>
+        <MenuItem onClick={() => {handleMenuClose(); (item === "Logout") && logout(); }} key={i}>{item}</MenuItem>
       )}
     </Menu>
   );
