@@ -55,16 +55,14 @@ const Login_II = () => {
       .then(response => response.json())
       .then(result => {
         setValues({ ...values, loading: false });
-        console.log(result);
         if(result.success === true) {
-          console.log(result);
           sessionStorage.setItem("sessionToken", result.accessToken);
           sessionStorage.setItem("usrData", JSON.stringify(result.data));
           history.push("/admin/home");
         }
       })
       .catch(error => {
-        setValues({ ...values, loading: false });
+        setValues({ ...values, loading: false, warning: "Unable to communicate with server." });
         console.log({error});
       });
     }
