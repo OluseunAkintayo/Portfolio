@@ -18,3 +18,17 @@ a {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* .customModal {
+  max-width: 500px;
+  width: 100vw;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.customDeleteModal {
+  max-width: 400px;
+  width: 100vw;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+} */

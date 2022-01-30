@@ -11,7 +11,7 @@ import Accounts from './pages/dashboard/comp/Pages/Users/Accounts';
 import ProtectedRoute from './assets/utils/ProtectedRoute';
 import axios from 'axios';
 
-axios.defaults.baseURL = "http://localhost:5000/";
+axios.defaults.baseURL = "http://localhost:5000/api/v2";
 
 function App() {
   return (
