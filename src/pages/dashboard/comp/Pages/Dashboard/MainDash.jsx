@@ -3,7 +3,7 @@ import NavComp from '../../../utils/NavComp';
 import { Typography, Box, Grid } from '@mui/material';
 import DrawerHeader from '../../../utils/DrawerHeader';
 import BreadComp from '../../../utils/BreadComp';
-import { OrderStats, CustomerStats, SalesStats } from './comp/Stats';
+import { OrderStats, CustomerStats, SalesStats, ProductCount } from './comp/Stats';
 
 const Main = () => {
   return (
@@ -16,11 +16,12 @@ const Main = () => {
           </Typography>
           <BreadComp parent="Dashboard" currentPage="Home" />
         </Box>
-        <Box sx={{ flexGrow: 1}}>
-          <Grid container spacing={2}>
+        <Box sx={{ flexGrow: 1, }}>
+          <Grid container spacing={3}>
             <SalesStats />
             <OrderStats />
             <CustomerStats />
+            <ProductCount />
           </Grid>
         </Box>
       </Box>

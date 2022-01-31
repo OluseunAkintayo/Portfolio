@@ -1,6 +1,5 @@
 import React from 'react';
-import { styled as muiStyled,Box, Grid, Paper, Card, CardContent, CardActions, Typography } from '@mui/material';
-import { useCountUp } from 'react-countup';
+import { styled as muiStyled, Grid, Paper, Typography } from '@mui/material';
 import CountUp from 'react-countup';
 
 const GridItem = muiStyled(Paper)(({ theme }) => ({
@@ -10,10 +9,12 @@ const GridItem = muiStyled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+
+
 export const OrderStats = () => {
   return (
     <Grid item xs={4}>
-      <GridItem sx={{ background: '#1c1d72e5', color: 'whitesmoke', height: '18.5ch', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <GridItem sx={{ background: 'whitesmoke', height: '18.5ch', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Typography>
           <CountUp style={{ fontSize: '2.25rem', marginRight: '0.375rem' }} duration={5} end={15095} />
           <span>Orders</span>
@@ -54,6 +55,22 @@ export const SalesStats = () => {
         </Typography>
         <Typography>
           This Month
+        </Typography>
+      </GridItem>
+    </Grid>
+  );
+};
+
+export const ProductCount = () => {
+  return (
+    <Grid item xs={4}>
+      <GridItem sx={{ background: 'whitesmoke', height: '18.5ch', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Typography>
+          <CountUp style={{ fontSize: '2.25rem', marginRight: '0.375rem' }} duration={2} end={7051} />
+          <span>Products</span>
+        </Typography>
+        <Typography>
+          and counting
         </Typography>
       </GridItem>
     </Grid>

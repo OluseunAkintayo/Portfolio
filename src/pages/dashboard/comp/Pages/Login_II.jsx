@@ -5,7 +5,6 @@ import { styled as muiStyled } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox, CircularProgress, Typography } from '@mui/material/';
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
-import axios from 'axios';
 
 const Login_II = () => {
   const history = useHistory();
@@ -27,7 +26,7 @@ const Login_II = () => {
     setValues({ ...values, rememberMe: !values.rememberMe });
   }
 
-  const login = e => {
+  const login = async e => {
     e.preventDefault();
     setValues({ ...values, loading: true });
     const myHeaders = new Headers();
@@ -48,23 +47,27 @@ const Login_II = () => {
     const newData = JSON.parse(raw);
     const { username, passcode } = newData;
 
-    if(username.trim() === '' || passcode.trim() === '') {
-      setValues({ ...values, warning: "Username or password cannot be empty", loading: false });
-    } else {
-      fetch("http://localhost:5000/api/v2/auth/login", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        setValues({ ...values, loading: false });
-        if(result.success === true) {
-          sessionStorage.setItem("sessionToken", result.accessToken);
-          sessionStorage.setItem("usrData", JSON.stringify(result.data));
-          history.push("/admin/home");
-        }
-      })
-      .catch(error => {
-        setValues({ ...values, loading: false, warning: "Unable to communicate with server." });
-        console.log({error});
-      });
+    try {
+      if(username.trim() === '' || passcode.trim() === '') {
+        setValues({ ...values, warning: "Username or password cannot be empty", loading: false });
+      } else {
+        fetch("http://localhost:5000/api/v2/auth/login", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          setValues({ ...values, loading: false });
+          if(result.success === true) {
+            sessionStorage.setItem("sessionToken", result.accessToken);
+            sessionStorage.setItem("usrData", JSON.stringify(result.data));
+            history.push("/admin/home");
+          }
+        })
+        .catch(error => {
+          setValues({ ...values, loading: false, warning: "Unable to communicate with server." });
+          console.log({error});
+        });
+      }
+    } catch (error) {
+      console.error({error});
     }
   }
 

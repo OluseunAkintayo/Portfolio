@@ -1,16 +1,15 @@
 import * as React from 'react';
-import { Box, Typography, TextField } from '@mui/material';
-// import { Modal } from 'react-responsive-modal';
+import { Box, Button, Typography, TextField, Fab, Tooltip, FormControlLabel, Checkbox } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import NavComp from '../../../utils/NavComp';
 import DrawerHeader from '../../../utils/DrawerHeader';
 import BreadComp from '../../../utils/BreadComp';
-import { Delete, Visibility } from '@mui/icons-material';
-import Dialogue from '../../../utils/Dialogue';
+import { Delete, Visibility, PersonAdd } from '@mui/icons-material';
+import Popup from '../../../utils/Popup';
 
 const AccountsComp = () => {
   const [values, setValues] = React.useState({
-    username: '', email: '', role: ''
+    username: '', email: '', isAdmin: false
   });
   const [status, setStatus] = React.useState({
     loading: false, error: null
@@ -18,7 +17,7 @@ const AccountsComp = () => {
 
   // modals.start
   const [modal, setModal] = React.useState({
-    edit: false, delete: false
+    edit: false, delete: false, create: true
   });
   const openEditModal = () => {
     setModal({ ...modal, edit: true });
@@ -32,18 +31,17 @@ const AccountsComp = () => {
   const closeDeleteModal = () => {
     setModal({ ...modal, delete: false });
   };
-
-  // user options
-  const options = [
-    { value: 'admin', label: 'Admin' },
-    { value: 'superAdmin', label: 'Super Admin' },
-    { value: 'user', label: 'User' }
-  ]
+  const openCreateModal = () => {
+    setModal({ ...modal, create: true });
+  }
+  const closeCreateModal = () => {
+    setModal({ ...modal, create: false });
+  }
   // modals.end
 
   const [users, setUsers] = React.useState([]);
   const [user, setUser] = React.useState({});
-  console.log(user)
+
   let token = sessionStorage.getItem("sessionToken");
 
   const columns = [
@@ -68,8 +66,12 @@ const AccountsComp = () => {
   ];
 
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value, warning: null });
+    setValues({ ...values, [prop]: event.target.value });
   };
+
+  const onCheckboxChange = () => {
+    setValues({ ...values, isAdmin: !values.isAdmin });
+  }
 
   const findItem = id => {
     const item = users.find(item => item._id === id);
@@ -101,7 +103,6 @@ const AccountsComp = () => {
       fetch("http://localhost:5000/api/v2/users", requestOptions)
         .then(response => response.json())
         .then(res => {
-          console.log(res);
           setStatus({ ...status, loading: false });
           if(res.success === true) {
             let tempData = [];
@@ -123,6 +124,10 @@ const AccountsComp = () => {
       console.error({error});
       setStatus({ ...status, loading: false, error: "Unable to fetch users. Please try again" });
     }
+  }
+
+  const newUser = () => {
+    
   }
 
   React.useEffect(() => {
@@ -147,38 +152,34 @@ const AccountsComp = () => {
             sx={{ height: "100%", width: 'auto' }}
           />
       </Box>
-      {
-        modal.edit === true &&
-        <Dialogue
-          openBox={modal.edit}
-          closeBox={closeEditModal}
-          boxTitle="Edit User"
-          actionText="Save"
-          action={closeEditModal}
-          boxContent={
+      <Box sx={{ '& > :not(style)': { m: 1 }, position: 'fixed', bottom: 20, right: 23 }}>
+        <Tooltip title="Add User">
+          <Fab color="primary" onClick={openCreateModal}>
+            <PersonAdd />
+          </Fab>
+        </Tooltip>
+      </Box>
+      {modal.create === true ?
+        <Popup
+          onOpen={modal.create}
+          onClose={closeCreateModal}
+          content={
             <Box>
+              <Typography>Add User</Typography>
               <TextField
                 sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true"
                 onChange={handleChange('username')}
-                defaultValue={user.username}
               />
               <TextField
-                sx={{ marginY: 2 }} id="outlined-basic" label="Email address" variant="outlined" fullWidth="true"
+                sx={{ marginY: 2 }} id="outlined-basic" label="Email" variant="outlined" fullWidth="true"
                 onChange={handleChange('email')}
-                defaultValue={user.email}
               />
-              <Box sx={{ height: '3rem', marginTop: '1.5ch' }}>
-                <select
-                  style={{ padding: '16.5px 14px', width: '100%', borderColor: '#0000003b', borderRadius: '0.25rem', outline: 'none' }}
-                  onChange={handleChange('role')}
-                >
-                  <option>Select role</option>
-                  {options.map(item => (<option value={item.value}>{item.label}</option>))}
-                </select>
-              </Box>
+              <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Make Admin" /> <br />
+              <Button onClick={newUser} variant="contained" sx={{ width: '100%', marginY: '1.5ch', height: '3rem' }}>Add User</Button>
             </Box>
           }
         />
+        : null
       }
     </Box>
   );

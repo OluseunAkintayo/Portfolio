@@ -27,14 +27,14 @@ let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
     findShip(shipName);
   }, [shipName]);
 
-  useEffect(() => {
-    let prev = document.title;
-    ship !== null ? setTitle(ship.name) : setTitle(document.title);
-    document.title = title;
-    return () => {
-      document.title = prev;
-    };
-  }, [ship, title]);
+  // useEffect(() => {
+  //   let prev = document.title;
+  //   ship !== null ? setTitle(ship.name) : setTitle(document.title);
+  //   document.title = title;
+  //   return () => {
+  //     document.title = prev;
+  //   };
+  // }, [ship, title]);
 
   return (
     <>

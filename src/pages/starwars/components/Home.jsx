@@ -26,7 +26,7 @@ const Home = ({ getShips, spaceShips }) => {
     items.forEach(item => {
       const unit = {
         ...item,
-        id: uuidV4(),
+        // id: uuidV4(),
         itemCount: 0,
         itemTotal: 0,
         price: item.cost_in_credits === "unknown" ? Math.ceil(Math.random() * 48954782) : Number(item.cost_in_credits)
