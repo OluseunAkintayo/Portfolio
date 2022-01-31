@@ -8,24 +8,28 @@ import Navbar from './Navbar';
 import { CircularProgress } from '@mui/material';
 import Footer from './Footer';
 
-let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
+let ShipInfo = ({ ship, getShip, addToCart, cart }) => {
   let history = useHistory();
-  let { shipName } = useParams();
+  let { shipName: shipParam } = useParams();
   let newShips = JSON.parse(localStorage.getItem("ships"));
-  let findShip = name => {
-    let res = newShips.find(item => item.name.toLowerCase() === name);
+  const [tempShip, setTempShip] = React.useState(() => ship);
+  let findShip = id => {
+    let res = newShips.find(item => Number(item.id) === Number(id));
     getShip(res);
   }
   let addProduct = (id) => {
-    addToCart(id);
+    findShip(id)
+    addToCart(id)
   }
   
   let [title, setTitle] = React.useState(document.title);
 
   useEffect(() => {
     window.scrollTo(0,0);
-    findShip(shipName);
-  }, [shipName]);
+    findShip(shipParam);
+    console.log(cart)
+    console.log(tempShip);
+  }, [shipParam, cart]);
 
   // useEffect(() => {
   //   let prev = document.title;
@@ -40,7 +44,7 @@ let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
     <>
       <ShipInfoComp>
         <Navbar />
-        {ship === null || ship === undefined ?
+        {ship === null ? // || ship === undefined ?
           (<div className="loadingShip"><CircularProgress size="5rem" /></div>)
           : (
             <div className="info-wrapper">
@@ -60,11 +64,11 @@ let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
                   <p><span className="bold">Passenger Capacity:</span> {ship.passengers}</p>
                   <p><span className="bold">Supplies Span:</span> {ship.consumables}</p>
                   <div className="actions">
-                    <button onClick = {() => addProduct(ship.id)}>
+                    <button onClick = {() => addProduct(shipParam)}>
                       Add Item
                     </button>
                     <div className="space"></div>
-                    <button onClick={() => history.push("/starwars")}>Continue Shopping</button>
+                    <button onClick={() => history.goBack()}>Continue Shopping</button>
                   </div>
                 </div>
               </div>
@@ -80,7 +84,7 @@ let ShipInfo = ({ cart, ship, getShip, addToCart }) => {
 let mapStateToProps = (state) => {
   return {
     ships: state.store.ships,
-    cart: localStorage.setItem("cart", JSON.stringify(state.store.cart)),
+    cart: state.store.cart,
     ship: state.store.ship,
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TextField, Box } from '@mui/material';
 
-const Popup = ({ onOpen, onClose, content }) => {
+const Popup = ({ onClose, content }) => {
   return (
     <Modal>
       <Box

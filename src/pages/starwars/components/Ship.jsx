@@ -14,7 +14,7 @@ const Ship = ({ ship, addToCart, cart }) => {
   return (
     <ShipComp>
       <div className="ship-item">
-        <Link to={`/starships/${name.toLowerCase()}`}>
+        <Link to={`/starships/${id}`}>
           <img src={poster} alt="" />
           <div className="ship-item-footer">
             <p className="ship-name">{name}</p>

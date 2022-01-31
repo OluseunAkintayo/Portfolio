@@ -6,64 +6,25 @@ import CartItem from './cart-comp/CartItem';
 import { clearCart } from '../../../redux/actions';
 
 const Cart = ({ storeCart, clearCart }) => {
-  const [totalCount, setTotalCount] = useState(0);
-  const [cartTotal, setCartTotal] = useState(0);
+  // const [totalCount, setTotalCount] = useState(0);
+  // const [cartTotal, setCartTotal] = useState(0);
   
-  useEffect(() => {
-    let count = 0;
-    let total = 0;
-    storeCart.forEach(item => {
-      count += item.itemCount;
-      total += item.itemCount * item.price;
-    })
-    setTotalCount(count);
-    setCartTotal(total);
-  }, [storeCart, totalCount, cartTotal, setTotalCount, setCartTotal]);
+  // useEffect(() => {
+  //   let count = 0;
+  //   let total = 0;
+  //   storeCart.forEach(item => {
+  //     count += item.itemCount;
+  //     total += item.itemCount * item.price;
+  //   })
+  //   setTotalCount(count);
+  //   setCartTotal(total);
+  // }, [storeCart, totalCount, cartTotal, setTotalCount, setCartTotal]);
 
   return (
     <>
       <NavBar />
       <CartComp>
-        {storeCart.length === 0 ?
-          (<div className="emptyCart">Your cart is currently empty!</div>)
-          : (
-            <div className="mainCart">
-              <h2>Your Cart</h2>
-              <div className="cart-items-container">
-                <table className="cart-items-wrapper">
-                  <th className="description">Description</th>
-                  <th className="cost">Cost</th>
-                  <th className="qty">Qty</th>
-                  <th className="amt">Amount</th>
-                  <th style={{ width: '2rem' }}></th>
-                  {storeCart.map(item  => <CartItem key={item.id} cartItem={item} />)}
-                </table>
-              </div>
-            </div>
-          )
-        }
-        <div className="cartSummary">
-          <div className="clear-cart" onClick={() => clearCart()}>
-            Clear cart
-          </div>
-          <div className="cart-totals">
-            <div>
-              <p>Subtotal:</p>
-              <p className="amt">N { Number(cartTotal.toFixed(2)).toLocaleString() }</p>
-            </div>
-            <div>
-              <p>VAT (7.5%):</p>
-              <p className="amt">N { (cartTotal.toFixed(2) * 0.075).toLocaleString() }</p>
-            </div>
-            <div style={{ fontWeight: 'bold' }}>
-              <p>Total:</p>
-              <p className="amt">N { (cartTotal * 1.075).toLocaleString() }</p>
-            </div>
-          </div>
-        </div>
-        <div className="check-out">
-          <button>Check Out</button>
-        </div>
+        
       </CartComp>
     </>
   )

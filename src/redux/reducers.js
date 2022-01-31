@@ -17,13 +17,13 @@ const shipsReducer = (state=init.starwars, { type, payload }) => {
     case actionTypes.GET_SHIP:
       return { ...state, ship: payload }
     case actionTypes.ADD_TO_CART:
-      let item = state.ships.find(unit => unit.id === payload.id);
-      item.inCart = state.cart.find(unit => unit.id === payload.id) ? true : false;
+      let item = state.ships.find(unit => Number(unit.id) === Number(payload.id));
+      item.inCart = state.cart.find(unit => Number(unit.id) === Number(payload.id)) ? true : false;
       return {
         ...state,
         cart: item.inCart ?
-          state.cart.map(item => item.id === payload.id ? 
-            { 
+          state.cart.map(item => Number(item.id) === Number(payload.id) ? 
+            {
               ...item,
               itemCount: item.itemCount + 1,
               itemTotal: (item.itemCount + 1) * item.price,
@@ -34,12 +34,12 @@ const shipsReducer = (state=init.starwars, { type, payload }) => {
     case actionTypes.REMOVE_FROM_CART:
       return {
         ...state,
-        cart: state.cart.filter(unit => unit.id !== payload.id)
+        cart: state.cart.filter(unit => Number(unit.id) !== Number(payload.id))
       };
     case actionTypes.ADJUST_QTY:
       return {
         ...state,
-        cart: state.cart.map(unit => unit.id === payload.id ? { ...unit, itemCount: +payload.itemCount, itemTotal: (unit.itemCount + 1) * unit.price } : unit)
+        cart: state.cart.map(unit => Number(unit.id) === Number(payload.id) ? { ...unit, itemCount: +payload.itemCount, itemTotal: (unit.itemCount + 1) * unit.price } : unit)
       };
     case actionTypes.CLEAR_CART:
       return {
