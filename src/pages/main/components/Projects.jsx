@@ -87,20 +87,20 @@ const Projects = () => {
             </Link>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            {/* <a href="https://starwars.techydna.com" target="_blank"> */}
-            <Link to='/starships'>
+            <a href="https://shop.techydna.com" target="_blank">
+            {/* <Link to='/'> */}
               <div className="item-img">
-                <img src={stardestroyer} alt="sterling" />
+                <img src="https://media.istockphoto.com/vectors/shopping-cart-icon-isolated-on-white-background-vector-id1206806317?k=20&m=1206806317&s=612x612&w=0&h=waK8qOHV2Fgz2ntEWHWBQtXpNDAQ_wdhd4tkTUz6tfE=" alt="sterling" />
               </div>
               <div className="item-desc">
                 <h4 className="item-name">
-                  Star Wars-Themed Cart
+                  The Shop
                 </h4>
-                <p className="item-desc-details">Choose a spacecraft for your next space voyage</p>
-                <p className="item-stack">React JS | Styled-components | Material UI</p>
+                <p className="item-desc-details">The one stop shop</p>
+                <p className="item-stack">React JS | Styled-components | Material</p>
               </div>
-            </Link>
-            {/* </a> */}
+            {/* </Link> */}
+            </a>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
             <Link to='/admin/auth'>
