@@ -61,9 +61,9 @@ const Projects = () => {
               </div>
               <div className="item-desc">
                 <h4 className="item-name">
-                  Sterling Meme Generator
+                  Meme Generator
                 </h4>
-                <p className="item-desc-details">A completely customizable meme app made for a client in the banking sector</p>
+                <p className="item-desc-details">Meme Generator</p>
                 <p className="item-stack">
                   React | Tailwind CSS | Material UI
                 </p>
@@ -81,7 +81,7 @@ const Projects = () => {
                 </h4>
                 <p className="item-desc-details">Search for trending and top-rated movies</p>
                 <p className="item-stack">
-                  React | Styled-components
+                  React JS | Styled-components
                 </p>
               </div>
             </Link>
@@ -96,23 +96,23 @@ const Projects = () => {
                 <h4 className="item-name">
                   The Shop
                 </h4>
-                <p className="item-desc-details">The one stop shop</p>
-                <p className="item-stack">React JS | Styled-components | Material</p>
+                <p className="item-desc-details">The one-stop shop</p>
+                <p className="item-stack">React JS <br /> Styled-components | Material UI</p>
               </div>
             {/* </Link> */}
             </a>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <Link to='/admin/auth'>
+            <a href="#">
               <div className="item-img">
                 <DashboardIcon style={{ fontSize: '7.5rem', borderRadius: '50%' }} />
               </div>
               <div className="item-desc">
                 <h4 className="item-name">Admin Dashboard</h4>
-                <p className="item-desc-details">Visualize data and perform administrative tasks</p>
+                <p className="item-desc-details">Visualize data and <br /> perform CRUD operations</p>
                 <p className="item-stack">MERN Stack <br /> (Coming Soon)</p>
               </div>
-            </Link>
+            </a>
           </motion.div>
         </div>
       </motion.div>

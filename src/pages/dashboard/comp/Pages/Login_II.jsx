@@ -55,8 +55,9 @@ const Login_II = () => {
         .then(response => response.json())
         .then(result => {
           setValues({ ...values, loading: false });
+          console.log(result);
           if(result.success === true) {
-            sessionStorage.setItem("sessionToken", result.accessToken);
+            sessionStorage.setItem("sessionToken", result.token);
             sessionStorage.setItem("usrData", JSON.stringify(result.data));
             history.push("/admin/home");
           }
