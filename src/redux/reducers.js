@@ -1,52 +1,30 @@
 import { combineReducers } from "redux";
-import { actionTypes } from  './actionTypes';
 
 const init = {
-  starwars: {
-    ships: [],
-    ship: null,
-    cart: [],
-    error: null
+  auth: {
+    isAuthorized: false,
+    isAuthenticated: false,
+    user: ''
+  },
+  
+  dash: {
+    users: [],
+    user: {},
+    items: [],
+    item: {},
+    reports: []
   }
 }
 
-const shipsReducer = (state=init.starwars, { type, payload }) => {
+const authorization = (state=init.auth, { type, payload }) => {
   switch(type) {
-    case actionTypes.GET_ALL:
-      return { ...state, ships: payload };
-    case actionTypes.GET_SHIP:
-      return { ...state, ship: payload }
-    case actionTypes.ADD_TO_CART:
-      let item = state.ships.find(unit => Number(unit.id) === Number(payload.id));
-      item.inCart = state.cart.find(unit => Number(unit.id) === Number(payload.id)) ? true : false;
-      return {
-        ...state,
-        cart: item.inCart ?
-          state.cart.map(item => Number(item.id) === Number(payload.id) ? 
-            {
-              ...item,
-              itemCount: item.itemCount + 1,
-              itemTotal: (item.itemCount + 1) * item.price,
-              inCart: true
-            } : item)
-          : [...state.cart, { ...item, itemCount: 1, itemTotal: item.price, inCart: true }]
-      };
-    case actionTypes.REMOVE_FROM_CART:
-      return {
-        ...state,
-        cart: state.cart.filter(unit => Number(unit.id) !== Number(payload.id))
-      };
-    case actionTypes.ADJUST_QTY:
-      return {
-        ...state,
-        cart: state.cart.map(unit => Number(unit.id) === Number(payload.id) ? { ...unit, itemCount: +payload.itemCount, itemTotal: (unit.itemCount + 1) * unit.price } : unit)
-      };
-    case actionTypes.CLEAR_CART:
-      return {
-        ...state, cart: []
-      }
-    case actionTypes.CLEANUP_ITEM:
-      return { ...state, ship: null };
+    default:
+      return state;
+  }
+}
+
+const dashboard = (state=init.dash, { type, payload }) => {
+  switch(type) {
     default:
       return state;
   }
@@ -54,7 +32,8 @@ const shipsReducer = (state=init.starwars, { type, payload }) => {
 
 
 const reducers = combineReducers({
-  store: shipsReducer
+  authorization: authorization,
+  dashboard: dashboard
 })
 
 export default reducers;

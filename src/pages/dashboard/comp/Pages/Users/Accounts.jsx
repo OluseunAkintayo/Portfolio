@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Box, Button, Typography, TextField, Fab, Tooltip, FormControlLabel, Checkbox } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import NavComp from '../../../utils/NavComp';
 import DrawerHeader from '../../../utils/DrawerHeader';
 import BreadComp from '../../../utils/BreadComp';
 import { Delete, Visibility, PersonAdd } from '@mui/icons-material';
 import Popup from '../../../utils/Popup';
 
-const AccountsComp = () => {
+const Accounts = () => {
   const [values, setValues] = React.useState({
     username: '', email: '', isAdmin: false
   });
@@ -185,14 +184,4 @@ const AccountsComp = () => {
   );
 };
 
-const Accounts = () => {
-  React.useEffect(() => {
-    const prev = document.title;
-    document.title = "Dashboard: Users";
-    return () => document.title = prev;
-  });
-  return (
-    <NavComp NavPage={<AccountsComp />} />
-  )
-}
 export default Accounts;

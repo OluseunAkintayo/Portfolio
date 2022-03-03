@@ -6,6 +6,7 @@ import { blue } from '@mui/material/colors';
 import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox, CircularProgress, Typography } from '@mui/material/';
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
 
+
 const Login_II = () => {
   const history = useHistory();
   const [values, setValues] = React.useState({
@@ -25,6 +26,8 @@ const Login_II = () => {
   const onCheckboxChange = () => {
     setValues({ ...values, rememberMe: !values.rememberMe });
   }
+
+  console.log(process.env);
 
   const login = async e => {
     e.preventDefault();

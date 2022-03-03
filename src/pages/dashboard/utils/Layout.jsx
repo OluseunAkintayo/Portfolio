@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DrawerHeader from './DrawerHeader';
 import { styled, useTheme } from '@mui/material/styles';
-import { IconButton, Link, ListItemText, ListItem, ListItemIcon, CssBaseline, Box, List, Toolbar, alpha, Divider, Typography, InputBase, Badge, MenuItem, Menu } from '@mui/material';
+import { IconButton, ListItemText, ListItem, ListItemIcon, CssBaseline, Box, List, Toolbar, alpha, Divider, Typography, InputBase, Badge, MenuItem, Menu } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -119,7 +119,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function NavComp({ NavPage }) {
+export default function Layout({ children }) {
   const history = useHistory();
   const logout = () => {
     endSession();
@@ -369,7 +369,7 @@ export default function NavComp({ NavPage }) {
         </List>
         <Divider />
       </Drawer>
-      {NavPage}
+      {children}
     </Box>
   );
 };

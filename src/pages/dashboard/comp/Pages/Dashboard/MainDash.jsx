@@ -1,5 +1,5 @@
 import React from 'react';
-import NavComp from '../../../utils/NavComp';
+import NavComp from '../../../utils/Layout';
 import { Typography, Box, Grid } from '@mui/material';
 import DrawerHeader from '../../../utils/DrawerHeader';
 import BreadComp from '../../../utils/BreadComp';
@@ -35,7 +35,7 @@ const MainDash = () => {
     document.title = "Dashboard: Home";
     return () => document.title = prev;
   });
-  return <NavComp NavPage={<Main />} />
+  return <Main />
 };
 
 export default MainDash;

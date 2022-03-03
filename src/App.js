@@ -6,6 +6,7 @@ import Login_II from './pages/dashboard/comp/Pages/Login_II';
 import MainDash from './pages/dashboard/comp/Pages/Dashboard/MainDash';
 import Accounts from './pages/dashboard/comp/Pages/Users/Accounts';
 import ProtectedRoute from './assets/utils/ProtectedRoute';
+import Layout from './pages/dashboard/utils/Layout';
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path="/movies/:movieId" exact component={MovieInfo} />
         {/* Dashboard */}
         <Route path="/admin/auth" exact component={Login_II} />
-        <ProtectedRoute path="/admin/home" exact component={MainDash} />
+        <Layout>
+          <ProtectedRoute path="/admin/home" exact component={MainDash} />
+        </Layout>
         <ProtectedRoute path="/admin/users" exact component={Accounts} />
       </Switch>
     </BrowserRouter>
