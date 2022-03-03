@@ -5,6 +5,8 @@ import { styled as muiStyled } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox, CircularProgress, Typography } from '@mui/material/';
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
+import { connect } from 'react-redux';
+import { dev } from '../../utils/params';
 
 
 const Login_II = () => {
@@ -26,8 +28,6 @@ const Login_II = () => {
   const onCheckboxChange = () => {
     setValues({ ...values, rememberMe: !values.rememberMe });
   }
-
-  console.log(process.env);
 
   const login = async e => {
     e.preventDefault();
@@ -54,7 +54,7 @@ const Login_II = () => {
       if(username.trim() === '' || passcode.trim() === '') {
         setValues({ ...values, warning: "Username or password cannot be empty", loading: false });
       } else {
-        fetch("http://localhost:5000/api/v2/auth/login", requestOptions)
+        fetch(dev + "login", requestOptions)
         .then(response => response.json())
         .then(result => {
           setValues({ ...values, loading: false });
@@ -62,7 +62,7 @@ const Login_II = () => {
           if(result.success === true) {
             sessionStorage.setItem("sessionToken", result.token);
             sessionStorage.setItem("usrData", JSON.stringify(result.data));
-            history.push("/admin/home");
+            // history.push("/admin/home");
           }
         })
         .catch(error => {
@@ -119,6 +119,12 @@ const Login_II = () => {
     </Login_II_Comp>
   );
 };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    
+  }
+}
 
 export default Login_II;
 
