@@ -18,10 +18,9 @@ function App() {
         <Route path="/movies/:movieId" exact component={MovieInfo} />
         {/* Dashboard */}
         <Route path="/admin/auth" exact component={Login_II} />
-        <Layout>
-          <ProtectedRoute path="/admin/home" exact component={MainDash} />
-        </Layout>
+        <ProtectedRoute path="/admin/home" exact component={MainDash} />
         <ProtectedRoute path="/admin/users" exact component={Accounts} />
+        
       </Switch>
     </BrowserRouter>
   );

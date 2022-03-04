@@ -4,7 +4,7 @@ const init = {
   auth: {
     isAuthorized: false,
     isAuthenticated: false,
-    user: ''
+    user: {}
   },
   
   dash: {
@@ -18,6 +18,8 @@ const init = {
 
 const authorization = (state=init.auth, { type, payload }) => {
   switch(type) {
+    case "ADMIN_LOGIN":
+      return { ...state, user: payload, isAuthorized: true, isAuthenticated: true }
     default:
       return state;
   }
@@ -25,6 +27,8 @@ const authorization = (state=init.auth, { type, payload }) => {
 
 const dashboard = (state=init.dash, { type, payload }) => {
   switch(type) {
+    case "GET_USERS":
+      return { ...state, users: payload }
     default:
       return state;
   }
@@ -32,7 +36,7 @@ const dashboard = (state=init.dash, { type, payload }) => {
 
 
 const reducers = combineReducers({
-  authorization: authorization,
+  auth: authorization,
   dashboard: dashboard
 })
 

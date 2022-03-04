@@ -1,8 +1,7 @@
 export const getToken = () => {
-  return sessionStorage.getItem('sessionToken');
+  return sessionStorage.getItem('token');
 };
 
 export const endSession = () => {
-  sessionStorage.removeItem('usrData');
-  sessionStorage.removeItem('sessionToken');
+  sessionStorage.removeItem('token');
 };

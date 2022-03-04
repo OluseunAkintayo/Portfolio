@@ -6,10 +6,10 @@ import { blue } from '@mui/material/colors';
 import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox, CircularProgress, Typography } from '@mui/material/';
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
 import { connect } from 'react-redux';
-import { dev } from '../../utils/params';
+import { adminLogin } from '../../../../redux/actions';
 
 
-const Login_II = () => {
+const Login_II = ({ auth_user }) => {
   const history = useHistory();
   const [values, setValues] = React.useState({
     usr: '', passcode: '', warning: null,
@@ -50,29 +50,26 @@ const Login_II = () => {
     const newData = JSON.parse(raw);
     const { username, passcode } = newData;
 
-    try {
-      if(username.trim() === '' || passcode.trim() === '') {
-        setValues({ ...values, warning: "Username or password cannot be empty", loading: false });
-      } else {
-        fetch(dev + "login", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          setValues({ ...values, loading: false });
-          console.log(result);
-          if(result.success === true) {
-            sessionStorage.setItem("sessionToken", result.token);
-            sessionStorage.setItem("usrData", JSON.stringify(result.data));
-            // history.push("/admin/home");
-          }
-        })
-        .catch(error => {
-          setValues({ ...values, loading: false, warning: "Unable to communicate with server." });
-          console.log({error});
-        });
+    if(username.trim() === '' || passcode.trim() === '') {
+      setValues({ ...values, loading: false, warning: "Username or password cannot be empty." });
+    } else {
+      try {
+        const res = await fetch("http://localhost:5000/api/v2/auth/login", requestOptions);
+        const response = await res.json();
+        setValues({ ...values, loading: false });
+        if(response.success === true) {
+          auth_user(response.user);
+          sessionStorage.setItem("token", JSON.stringify(response.token));
+          history.push("/admin/home");
+        } else {
+          setValues({ ...values, loading: false, warning: response.msg.toString() });
+        }
+      } catch (error) {
+        setValues({ ...values, loading: false });
+        console.error({error});
       }
-    } catch (error) {
-      console.error({error});
     }
+
   }
 
   return (
@@ -80,41 +77,44 @@ const Login_II = () => {
       <Box
         sx={{ maxWidth: '400px', width: '100%', border: '1px solid lightgray', p: '1.5rem' }}
       >
-        <Typography sx={{ fontSize: '2.5ch', color: 'rgba(0, 0, 0, 0.6)' }}>Login to Admin Console</Typography>
-        <TextField
-          sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true"
-          onChange={handleChange('usr')}
-        />
-        <FormControl sx={{ marginY: 2, width: '100%', }} variant="outlined">
-          <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-          <OutlinedInput
-            sx={{ height: '100%' }}
-            id="outlined-adornment-password"
-            type={values.showPasscode ? 'text' : 'password'}
-            value={values.passcode}
-            onChange={handleChange('passcode')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handlePasswordToggle}
-                  edge="end"
-                >
-                  {values.showPasscode ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
+        <form>
+          <Typography sx={{ fontSize: '2.5ch', color: 'rgba(0, 0, 0, 0.6)' }}>Login to Admin Console</Typography>
+          <TextField
+            sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true" required
+            onChange={handleChange('usr')}
           />
-        </FormControl>
-        <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Remember me" />
-        {values.warning && <Typography sx={{ color: 'red', marginY: '1ch'}}>{values.warning}</Typography>}
-        <LoginBtn
-          variant="contained" endIcon={!values.loading && <Login />}
-          onClick={(e) => login(e)}
-        >
-          {!values.loading ? 'Login' : <CircularProgress sx={{ color: 'white'}} size="3.5ch" />}
-        </LoginBtn>
+          <FormControl sx={{ marginY: 2, width: '100%', }} variant="outlined">
+            <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+            <OutlinedInput
+              sx={{ height: '100%' }}
+              id="outlined-adornment-password"
+              type={values.showPasscode ? 'text' : 'password'}
+              value={values.passcode}
+              onChange={handleChange('passcode')}
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handlePasswordToggle}
+                    edge="end"
+                  >
+                    {values.showPasscode ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+          <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Remember me" />
+          {values.warning && <Typography sx={{ color: 'red', marginY: '1ch'}}>{values.warning}</Typography>}
+          <LoginBtn
+            variant="contained" endIcon={!values.loading && <Login />}
+            onClick={(e) => login(e)}
+          >
+            {!values.loading ? 'Login' : <CircularProgress sx={{ color: 'white'}} size="3.5ch" />}
+          </LoginBtn>
+        </form>
       </Box>
     </Login_II_Comp>
   );
@@ -122,11 +122,11 @@ const Login_II = () => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    
+    auth_user: data => dispatch(adminLogin(data))
   }
 }
 
-export default Login_II;
+export default connect(null, mapDispatchToProps)(Login_II);
 
 const LoginBtn = muiStyled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[500]),

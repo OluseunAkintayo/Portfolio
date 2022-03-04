@@ -1,14 +1,17 @@
 import * as React from 'react';
-import { Box, Button, Typography, TextField, Fab, Tooltip, FormControlLabel, Checkbox } from '@mui/material';
+import { Box, Button, Typography, TextField, Fab, Tooltip, FormControlLabel, Checkbox, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DrawerHeader from '../../../utils/DrawerHeader';
 import BreadComp from '../../../utils/BreadComp';
-import { Delete, Visibility, PersonAdd } from '@mui/icons-material';
+import { Delete, Visibility, PersonAdd, PersonAddAlt } from '@mui/icons-material';
 import Popup from '../../../utils/Popup';
+import { connect } from 'react-redux';
+import { loadUsers } from '../../../../../redux/actions';
 
-const Accounts = () => {
+const Accounts = ({ usrName, getAdmins, admins }) => {
+  console.log(usrName);
   const [values, setValues] = React.useState({
-    username: '', email: '', isAdmin: false
+    username: '', email: '', isAdmin: false, isSuperAdmin: false
   });
   const [status, setStatus] = React.useState({
     loading: false, error: null
@@ -41,7 +44,7 @@ const Accounts = () => {
   const [users, setUsers] = React.useState([]);
   const [user, setUser] = React.useState({});
 
-  let token = sessionStorage.getItem("sessionToken");
+  let token = JSON.parse(sessionStorage.getItem("token"));
 
   const columns = [
     {
@@ -112,7 +115,7 @@ const Accounts = () => {
               }
               tempData = [...tempData, user];
             })
-            setUsers(tempData);
+            getAdmins(tempData);
           }
         })
         .catch(error => {
@@ -131,6 +134,9 @@ const Accounts = () => {
 
   React.useEffect(() => {
     getUsers();
+    const prev = document.title;
+    document.title = "Dashboard: Users";
+    return () => document.title = prev;
   }, []);
 
   return (
@@ -142,10 +148,16 @@ const Accounts = () => {
           </Typography>
           <BreadComp parent="Dashboard" currentPage="Users" />
       </Box>
+      {/* <Box style={{ margin: '1rem 0', display: 'flex', justifyContent: 'flex-end'  }}>
+        <Button variant="contained" onClick={openCreateModal}>
+          <PersonAddAlt />
+          <span style={{ padding: '0 0.25rem'}}>Add User</span>
+        </Button>
+      </Box> */}
       <Box style={{ height: '50vh' }}>
           <DataGrid
             columns={columns}
-            rows={users}
+            rows={admins}
             disbleSelectionOnClick
             loading={status.loading}
             sx={{ height: "100%", width: 'auto' }}
@@ -163,8 +175,18 @@ const Accounts = () => {
           onOpen={modal.create}
           onClose={closeCreateModal}
           content={
-            <Box>
-              <Typography>Add User</Typography>
+            <Box sx={{ color: 'rgba(0,0,0,0.7)' }}>
+              <Typography sx={{ fontSize: '1.25rem', fontWeight: 500 }}>
+                Add User
+              </Typography>
+              <TextField
+                sx={{ marginY: 2 }} id="outlined-basic" label="First name" variant="outlined" fullWidth="true"
+                onChange={handleChange('firstName')}
+              />
+              <TextField
+                sx={{ marginY: 2 }} id="outlined-basic" label="Last name" variant="outlined" fullWidth="true"
+                onChange={handleChange('lastName')}
+              />
               <TextField
                 sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true"
                 onChange={handleChange('username')}
@@ -173,7 +195,29 @@ const Accounts = () => {
                 sx={{ marginY: 2 }} id="outlined-basic" label="Email" variant="outlined" fullWidth="true"
                 onChange={handleChange('email')}
               />
-              <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Make Admin" /> <br />
+              {/* <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Make Admin" /> <br /> */}
+              <Box 
+                sx={{ 
+                  marginY: 2,
+                  height: 56, borderRadius: '0.25rem',
+                  overflow: 'hidden'
+                }}
+              >
+                <select
+                  style={{
+                    height: '100%', width: '100%',
+                    padding: '16.5px 14px', borderRadius: '0.25rem',
+                    background: 'inherit', cursor: 'pointer',
+                    outline: 'none', border: '1px solid rgba(0,0,0,0.3)'
+                  }}
+                >
+                  <option selected disabled>Choose</option>
+                  <option value='isAdmin'>Admin</option>
+                  <option value='isSuperAdmin'>Super Admin</option>
+                </select>
+              </Box>
+
+              
               <Button onClick={newUser} variant="contained" sx={{ width: '100%', marginY: '1.5ch', height: '3rem' }}>Add User</Button>
             </Box>
           }
@@ -184,4 +228,17 @@ const Accounts = () => {
   );
 };
 
-export default Accounts;
+const mapStateToProps = state => {
+  return {
+    usrName: state.auth.user.username,
+    admins: state.dashboard.users
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAdmins: items => dispatch(loadUsers(items)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts);
