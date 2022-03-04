@@ -123,6 +123,8 @@ export default function Layout({ children }) {
   const history = useHistory();
   const logout = () => {
     endSession();
+    localStorage.clear();
+    sessionStorage.clear();
     history.push("/admin/auth");
   }
   const [searchText, setSearchText] = React.useState('');
