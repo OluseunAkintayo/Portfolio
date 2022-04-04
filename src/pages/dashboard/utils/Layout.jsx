@@ -333,20 +333,20 @@ export default function Layout({ children }) {
           </ListItem>
           <ListItem button>
             <ListItemIcon><CalendarToday /></ListItemIcon>
-            <ListItemText primary="Holiday Schedule" />
+            <ListItemText primary="Calendar" />
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem button>
-            <ListItemIcon><Layers /></ListItemIcon>
+            <ListItemIcon onClick={() => history.push("/admin/products/brands")}><Layers /></ListItemIcon>
             <ListItemText primary="Brands" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => history.push("/admin/products/main")}>
             <ListItemIcon><IconList /></ListItemIcon>
             <ListItemText primary="Products" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => history.push("/admin/products/inventory")}>
             <ListItemIcon><Inventory /></ListItemIcon>
             <ListItemText primary="Inventory" />
           </ListItem>

@@ -6,8 +6,8 @@ import { blue } from '@mui/material/colors';
 import { TextField, Box, IconButton, OutlinedInput, FormControl, InputLabel, InputAdornment, Button, FormControlLabel, Checkbox, CircularProgress, Typography } from '@mui/material/';
 import { VisibilityOff, Visibility, Login } from '@mui/icons-material';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { adminLogin } from '../../../../redux/actions';
-
 
 const Login_II = ({ auth_user }) => {
   const history = useHistory();
@@ -24,29 +24,30 @@ const Login_II = ({ auth_user }) => {
       showPasscode: !values.showPasscode,
     });
   };
-
   const onCheckboxChange = () => {
     setValues({ ...values, rememberMe: !values.rememberMe });
   }
 
   const login = async e => {
+    // const loginUrl = "http://localhost:5000/api/v2/auth/login";
+    const loginUrl = "https://techydna-app.herokuapp.com/api/v2/auth/login";
     e.preventDefault();
     setValues({ ...values, loading: true });
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
+    myHeaders.append("Access-Control-Allow-Origin", "*");
+    
     const raw = JSON.stringify({
       "username": values.usr,
       "passcode": values.passcode
     });
-
+    console.log(raw);
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
-    };
-    
+    };    
     const newData = JSON.parse(raw);
     const { username, passcode } = newData;
 
@@ -54,8 +55,9 @@ const Login_II = ({ auth_user }) => {
       setValues({ ...values, loading: false, warning: "Username or password cannot be empty." });
     } else {
       try {
-        const res = await fetch("http://localhost:5000/api/v2/auth/login", requestOptions);
+        const res = await fetch(loginUrl, requestOptions);
         const response = await res.json();
+        console.log(response);
         setValues({ ...values, loading: false });
         if(response.success === true) {
           auth_user(response.user);
@@ -77,7 +79,7 @@ const Login_II = ({ auth_user }) => {
       <Box
         sx={{ maxWidth: '400px', width: '100%', border: '1px solid lightgray', p: '1.5rem' }}
       >
-        <form>
+        <div>
           <Typography sx={{ fontSize: '2.5ch', color: 'rgba(0, 0, 0, 0.6)' }}>Login to Admin Console</Typography>
           <TextField
             sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true" required
@@ -114,7 +116,7 @@ const Login_II = ({ auth_user }) => {
           >
             {!values.loading ? 'Login' : <CircularProgress sx={{ color: 'white'}} size="3.5ch" />}
           </LoginBtn>
-        </form>
+        </div>
       </Box>
     </Login_II_Comp>
   );
