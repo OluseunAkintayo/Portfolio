@@ -19,7 +19,7 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
 
   // modals.start
   const [modal, setModal] = React.useState({
-    edit: false, delete: false, create: true
+    edit: false, delete: false, create: false
   });
   const openEditModal = () => {
     setModal({ ...modal, edit: true });
@@ -102,7 +102,7 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
     };
 
     try {
-      fetch("http://localhost:5000/api/v2/users", requestOptions)
+      fetch("https://techydna-app.herokuapp.com/api/v2/users", requestOptions)
         .then(response => response.json())
         .then(res => {
           setStatus({ ...status, loading: false });
