@@ -1,17 +1,16 @@
 import * as React from 'react';
-import { Box, Button, Typography, TextField, Fab, Tooltip, FormControlLabel, Checkbox, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, Typography, Fab, Tooltip } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DrawerHeader from '../../../utils/DrawerHeader';
 import BreadComp from '../../../utils/BreadComp';
-import { Delete, Visibility, PersonAdd, PersonAddAlt } from '@mui/icons-material';
-import Popup from '../../../utils/Popup';
+import { Delete, Visibility, PersonAdd } from '@mui/icons-material';
 import { connect } from 'react-redux';
 import { loadUsers } from '../../../../../redux/actions';
+import AddAccount from './AddAccount';
 
 const Accounts = ({ usrName, getAdmins, admins }) => {
-  console.log(usrName);
   const [values, setValues] = React.useState({
-    username: '', email: '', isAdmin: false, isSuperAdmin: false
+    firstName: '', lastName: '', username: '', email: '', role: ''
   });
   const [status, setStatus] = React.useState({
     loading: false, error: null
@@ -19,7 +18,7 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
 
   // modals.start
   const [modal, setModal] = React.useState({
-    edit: false, delete: false, create: false
+    edit: false, delete: false, create: true
   });
   const openEditModal = () => {
     setModal({ ...modal, edit: true });
@@ -59,9 +58,10 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
     },
     {
       headerName: 'Actions',
+      width: 150,
       renderCell: params =>
         <Box sx={{ width: '100%' }}>
-          <Visibility onClick={id => editUser(params.row._id)} sx={{ color: 'gray', cursor: 'pointer', marginRight: '0.5ch' }} />
+          <Visibility onClick={id => editUser(params.row._id)} sx={{ color: 'gray', cursor: 'pointer', marginRight: '1ch' }} />
           <Delete onClick={id => deleteUser(params.row._id)} sx={{ color: '#d92128', cursor: 'pointer' }} />
         </Box>
     }
@@ -70,10 +70,6 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-
-  const onCheckboxChange = () => {
-    setValues({ ...values, isAdmin: !values.isAdmin });
-  }
 
   const findItem = id => {
     const item = users.find(item => item._id === id);
@@ -129,7 +125,15 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
   }
 
   const newUser = () => {
-    
+    const usr = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      username: values.username,
+      email: values.email,
+      isAdmin: (values.role === "isAdmin" || values.role === "isSuperAdmin") ? true : false,
+      isSuperAdmin: values.role === "isSuperAdmin" ? true : false
+    }
+    console.log(usr);
   }
 
   React.useEffect(() => {
@@ -143,18 +147,12 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
     <Box component="main" sx={{ flexGrow: 1, paddingX: 4, paddingY: 2 }}>
       <DrawerHeader />
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3ch' }}>
-          <Typography sx={{ fontSize: '3ch' }}>
-            Users 
-          </Typography>
-          <BreadComp parent="Dashboard" currentPage="Users" />
+        <Typography sx={{ fontSize: '3ch' }}>
+          Users 
+        </Typography>
+        <BreadComp parent="Dashboard" currentPage="Users" />
       </Box>
-      {/* <Box style={{ margin: '1rem 0', display: 'flex', justifyContent: 'flex-end'  }}>
-        <Button variant="contained" onClick={openCreateModal}>
-          <PersonAddAlt />
-          <span style={{ padding: '0 0.25rem'}}>Add User</span>
-        </Button>
-      </Box> */}
-      <Box style={{ height: '50vh' }}>
+      <Box style={{ height: 'calc(100vh - 15rem)' }}>
           <DataGrid
             columns={columns}
             rows={admins}
@@ -170,59 +168,15 @@ const Accounts = ({ usrName, getAdmins, admins }) => {
           </Fab>
         </Tooltip>
       </Box>
-      {modal.create === true ?
-        <Popup
-          onOpen={modal.create}
-          onClose={closeCreateModal}
-          content={
-            <Box sx={{ color: 'rgba(0,0,0,0.7)' }}>
-              <Typography sx={{ fontSize: '1.25rem', fontWeight: 500 }}>
-                Add User
-              </Typography>
-              <TextField
-                sx={{ marginY: 2 }} id="outlined-basic" label="First name" variant="outlined" fullWidth="true"
-                onChange={handleChange('firstName')}
-              />
-              <TextField
-                sx={{ marginY: 2 }} id="outlined-basic" label="Last name" variant="outlined" fullWidth="true"
-                onChange={handleChange('lastName')}
-              />
-              <TextField
-                sx={{ marginY: 2 }} id="outlined-basic" label="Username" variant="outlined" fullWidth="true"
-                onChange={handleChange('username')}
-              />
-              <TextField
-                sx={{ marginY: 2 }} id="outlined-basic" label="Email" variant="outlined" fullWidth="true"
-                onChange={handleChange('email')}
-              />
-              {/* <FormControlLabel control={<Checkbox onChange={onCheckboxChange} />} label="Make Admin" /> <br /> */}
-              <Box 
-                sx={{ 
-                  marginY: 2,
-                  height: 56, borderRadius: '0.25rem',
-                  overflow: 'hidden'
-                }}
-              >
-                <select
-                  style={{
-                    height: '100%', width: '100%',
-                    padding: '16.5px 14px', borderRadius: '0.25rem',
-                    background: 'inherit', cursor: 'pointer',
-                    outline: 'none', border: '1px solid rgba(0,0,0,0.3)'
-                  }}
-                >
-                  <option selected disabled>Choose</option>
-                  <option value='isAdmin'>Admin</option>
-                  <option value='isSuperAdmin'>Super Admin</option>
-                </select>
-              </Box>
 
-              
-              <Button onClick={newUser} variant="contained" sx={{ width: '100%', marginY: '1.5ch', height: '3rem' }}>Add User</Button>
-            </Box>
-          }
-        />
-        : null
+      { modal.create === true &&
+        <AddAccount
+          modal={modal}
+          handleChange={handleChange}
+          closeCreateModal={closeCreateModal}
+          newUser={newUser}
+          values={values}
+        /> 
       }
     </Box>
   );

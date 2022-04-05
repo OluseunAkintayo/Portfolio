@@ -20,22 +20,21 @@ const Popup = ({ onClose, content }) => {
 export default Popup;
 
 const Modal = styled.section`
-background: #00000040;
+background: #00000090;
 position: fixed;
-top: 4rem;
+top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-z-index: 9999;
+z-index: 1200;
 display: flex;
 align-items: center;
 justify-content: center;
 .closeBtn {
   background: #d92128;
   width: 2rem;
-  aspect-ratio: 1;
-  border-radius: 0.25rem;
-  color: whitesmoke;
+  border-radius: 0.125rem;
+  color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;

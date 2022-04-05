@@ -1,22 +1,14 @@
 import React from 'react';
-import { Typography, Breadcrumbs } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Typography, Breadcrumbs, Box } from '@mui/material';
 
 const BreadComp = (props) => {
   return (
-    <div>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link color="inherit" to="/admin/home">
-          {props.parent}
-        </Link>
-        <Link underline="hover" to=''>
-          {props.currentPage}
-        </Link>
-        {/* <Typography color="text.primary">
-          {props.currentPage}
-        </Typography> */}
+    <Box>
+      <Breadcrumbs aria-label="breadcrumb" sx={{ cursor: 'pointer' }}>
+        <Typography>{props.parent}</Typography>
+        <Typography>{props.currentPage}</Typography>
       </Breadcrumbs>
-    </div>
+    </Box>
   );
 };
 

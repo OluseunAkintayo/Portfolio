@@ -13,7 +13,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import MailIcon from '@mui/icons-material/Mail';
 import { Search, Home, List as IconList, AccountBalance, Layers, Assessment, CalendarToday, Inventory, AddShoppingCart, Archive } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
-import { endSession } from '../../../assets/utils/HandleAuth';
+import { connect } from 'react-redux';
+import { adminLogout } from '../../../redux/actions';
 
 const drawerWidth = 220;
 
@@ -119,12 +120,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function Layout({ children }) {
+function Layout({ children, endSession }) {
   const history = useHistory();
   const logout = () => {
     endSession();
     localStorage.clear();
-    sessionStorage.clear();
     history.push("/admin/auth");
   }
   const [searchText, setSearchText] = React.useState('');
@@ -375,3 +375,11 @@ export default function Layout({ children }) {
     </Box>
   );
 };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    endSession: () => dispatch(adminLogout()),
+  }
+};
+
+export default connect(null, mapDispatchToProps)(Layout);

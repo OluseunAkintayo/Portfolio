@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { adminLogin } from '../../../../redux/actions';
 
-const Login_II = ({ auth_user }) => {
+const Login_II = ({ auth }) => {
   const history = useHistory();
   const [values, setValues] = React.useState({
     usr: '', passcode: '', warning: null,
@@ -41,7 +41,6 @@ const Login_II = ({ auth_user }) => {
       "username": values.usr,
       "passcode": values.passcode
     });
-    console.log(raw);
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -57,11 +56,10 @@ const Login_II = ({ auth_user }) => {
       try {
         const res = await fetch(loginUrl, requestOptions);
         const response = await res.json();
-        console.log(response);
+        const { msg, success, ...rest } = response;
         setValues({ ...values, loading: false });
         if(response.success === true) {
-          auth_user(response.user);
-          sessionStorage.setItem("token", JSON.stringify(response.token));
+          auth(rest);
           history.push("/admin/home");
         } else {
           setValues({ ...values, loading: false, warning: response.msg.toString() });
@@ -124,7 +122,7 @@ const Login_II = ({ auth_user }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    auth_user: data => dispatch(adminLogin(data))
+    auth: data => dispatch(adminLogin(data))
   }
 }
 

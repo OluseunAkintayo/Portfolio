@@ -1,5 +1,7 @@
+const root = JSON.parse(localStorage.getItem('persist:root')).auth;
+const token = JSON.parse(root).session.token;
 export const getToken = () => {
-  return sessionStorage.getItem('token');
+  return token;
 };
 
 export const endSession = () => {
