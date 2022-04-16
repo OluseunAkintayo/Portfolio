@@ -103,7 +103,7 @@ const Projects = () => {
             </a>
           </motion.div>
           <motion.div variants={childVariant} {...hoverEffect}>
-            <a href="#">
+            <Link to="/admin/auth">
               <div className="item-img">
                 <DashboardIcon style={{ fontSize: '7.5rem', borderRadius: '50%' }} />
               </div>
@@ -112,7 +112,7 @@ const Projects = () => {
                 <p className="item-desc-details">Visualize data and <br /> perform CRUD operations</p>
                 <p className="item-stack">MERN Stack <br /> (Coming Soon)</p>
               </div>
-            </a>
+            </Link>
           </motion.div>
         </div>
       </motion.div>

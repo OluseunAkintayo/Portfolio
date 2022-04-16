@@ -4,7 +4,7 @@ const init = {
   auth: {
     isAuthorized: false,
     isAuthenticated: false,
-    session: {}
+    user: {}
   },
   
   dash: {
@@ -19,9 +19,7 @@ const init = {
 const authorization = (state=init.auth, { type, payload }) => {
   switch(type) {
     case "ADMIN_LOGIN":
-      return { ...state, session: payload, isAuthorized: true, isAuthenticated: true }
-    case "LOGOUT":
-      return { ...state, session: {}, isAuthorized: false, isAuthenticated: false }
+      return { ...state, user: payload, isAuthorized: true, isAuthenticated: true }
     default:
       return state;
   }

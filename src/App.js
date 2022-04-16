@@ -5,10 +5,8 @@ import MovieInfo from './pages/movies/comp/MovieInfo';
 import Login_II from './pages/dashboard/comp/Pages/Login_II';
 import MainDash from './pages/dashboard/comp/Pages/Dashboard/MainDash';
 import Accounts from './pages/dashboard/comp/Pages/Users/Accounts';
-import Brands from './pages/dashboard/comp/Pages/Products/Brands';
-import Inventory from './pages/dashboard/comp/Pages/Products/Inventory';
-import Products from './pages/dashboard/comp/Pages/Products/Products';
 import ProtectedRoute from './assets/utils/ProtectedRoute';
+import Layout from './pages/dashboard/utils/Layout';
 
 function App() {
   return (
@@ -22,9 +20,7 @@ function App() {
         <Route path="/admin/auth" exact component={Login_II} />
         <ProtectedRoute path="/admin/home" exact component={MainDash} />
         <ProtectedRoute path="/admin/users" exact component={Accounts} />
-        <ProtectedRoute path="/admin/products/brands" exact component={Brands} />
-        <ProtectedRoute path="/admin/products/main" exact component={Accounts} />
-        <ProtectedRoute path="/admin/products/inventory" exact component={Accounts} />
+        
       </Switch>
     </BrowserRouter>
   );

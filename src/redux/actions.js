@@ -5,12 +5,6 @@ export const adminLogin = data => {
   }
 }
 
-export const adminLogout = () => {
-  return {
-    type: "LOGOUT"
-  }
-}
-
 export const loadUsers = users => {
   return {
     type: "GET_USERS",

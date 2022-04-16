@@ -16,7 +16,7 @@ export const OrderStats = () => {
     <Grid item xs={4}>
       <GridItem sx={{ background: 'whitesmoke', height: '18.5ch', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Typography>
-          <CountUp style={{ fontSize: '2.25rem', marginRight: '0.375rem' }} duration={5} end={15095} />
+          <CountUp style={{ fontSize: '2.25rem', marginRight: '0.375rem' }} duration={2} end={11015} />
           <span>Orders</span>
         </Typography>
         <Typography>

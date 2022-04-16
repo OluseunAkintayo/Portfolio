@@ -13,8 +13,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import MailIcon from '@mui/icons-material/Mail';
 import { Search, Home, List as IconList, AccountBalance, Layers, Assessment, CalendarToday, Inventory, AddShoppingCart, Archive } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { adminLogout } from '../../../redux/actions';
+import { endSession } from '../../../assets/utils/HandleAuth';
 
 const drawerWidth = 220;
 
@@ -120,7 +119,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-function Layout({ children, endSession }) {
+export default function Layout({ children }) {
   const history = useHistory();
   const logout = () => {
     endSession();
@@ -329,24 +328,24 @@ function Layout({ children, endSession }) {
           </ListItem>
           <ListItem button>
             <ListItemIcon><Assessment /></ListItemIcon>
-            <ListItemText primary="Performance" />
+            <ListItemText primary="KPI" />
           </ListItem>
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemIcon><CalendarToday /></ListItemIcon>
-            <ListItemText primary="Calendar" />
-          </ListItem>
+            <ListItemText primary="Holiday Schedule" />
+          </ListItem> */}
         </List>
         <Divider />
         <List>
           <ListItem button>
-            <ListItemIcon onClick={() => history.push("/admin/products/brands")}><Layers /></ListItemIcon>
+            <ListItemIcon><Layers /></ListItemIcon>
             <ListItemText primary="Brands" />
           </ListItem>
-          <ListItem button onClick={() => history.push("/admin/products/main")}>
+          <ListItem button>
             <ListItemIcon><IconList /></ListItemIcon>
             <ListItemText primary="Products" />
           </ListItem>
-          <ListItem button onClick={() => history.push("/admin/products/inventory")}>
+          <ListItem button>
             <ListItemIcon><Inventory /></ListItemIcon>
             <ListItemText primary="Inventory" />
           </ListItem>
@@ -375,11 +374,3 @@ function Layout({ children, endSession }) {
     </Box>
   );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    endSession: () => dispatch(adminLogout()),
-  }
-};
-
-export default connect(null, mapDispatchToProps)(Layout);
