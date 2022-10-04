@@ -140,7 +140,7 @@ class MovApp extends Component {
     return (
       <>
         <header>
-          <Link to="/movies" className="movies-header"><h3>IMDB Movies</h3></Link>
+          <Link to="/movies" className="movies-header"><h3>Movies App</h3></Link>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"

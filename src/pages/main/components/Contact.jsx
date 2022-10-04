@@ -32,7 +32,7 @@ const Contact = () => {
           </div>
           <div className="tip">
             <Tooltip title="View my resume">
-              <a href="https://drive.google.com/file/d/1-A9dxlq-gS_nyIufAoYVeIiOUHMeKvxP/view?usp=sharing" target="_blank" rel="noreferrer">
+              <a href="/docs/Oluseun_Oladiipo_Resume.pdf" target="_blank" rel="noreferrer">
                 <Visibility className="contact-icon" />
               </a>
             </Tooltip>
